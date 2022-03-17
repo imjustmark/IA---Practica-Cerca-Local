@@ -94,4 +94,18 @@ public class RescateEstado {
         int aux = (-1) * centro;
         solucion.get(helicoptero).add(index, aux);
     }
+
+    // COMPROBADORAS APLICACIÓN DE OPERADORES
+
+    public boolean EsValidoCambiaGrupo(int grupo, int helicoptero, int nuevo_helicoptero, int grupo_previo) {
+
+    }
+
+    public boolean EsValidoCambiaOrden(int helicoptero, int grupo1, int grupo2) {
+
+    }
+
+    public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
+
+    }
 }
