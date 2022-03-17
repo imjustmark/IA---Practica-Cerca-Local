@@ -1,6 +1,5 @@
 package src;
 import IA.Desastres.*;
-import com.sun.security.auth.UnixNumericGroupPrincipal;
 
 import java.util.*;
 
@@ -19,9 +18,11 @@ import java.util.*;
 
 public class RescateEstado {
 
-    int maxgrupos = 20;
-    int maxcentros = 20;
-    int maxhelicopteros = 20;
+    static int maxgrupos = 20;
+    static int maxcentros = 20;
+    static int maxhelicopteros = 20;
+
+    static int capacidad_max = 15;
 
     int Ngrupos, Ncentros, Nhelicopteros;
 
@@ -97,15 +98,30 @@ public class RescateEstado {
 
     // COMPROBADORAS APLICACIÓN DE OPERADORES
 
-    public boolean EsValidoCambiaGrupo(int grupo, int helicoptero, int nuevo_helicoptero, int grupo_previo) {
-
-    }
-
-    public boolean EsValidoCambiaOrden(int helicoptero, int grupo1, int grupo2) {
-
+    public boolean EsValidoCambiaGrupo(int grupo, int nuevo_helicoptero, int grupo_previo) {
+        int carga_actual = 0;
+        int index = solucion.get(nuevo_helicoptero).indexOf(grupo_previo);
+        while (index >= 0 && solucion.get(nuevo_helicoptero).get(index) >= 0) {
+            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index)).getNPersonas();
+            --index;
+        }
+        return carga_actual + grupos.get(grupo).getNPersonas() <= capacidad_max;
     }
 
     public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
-
+        int carga_h1 = 0;
+        int carga_h2 = 0;
+        int index1 = solucion.get(helicoptero1).indexOf(grupo1) - 1;
+        int index2 = solucion.get(helicoptero2).indexOf(grupo2) - 1;
+        while (index1 >= 0 && solucion.get(helicoptero1).get(index1) >= 0) {
+            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index1)).getNPersonas();
+            --index1;
+        }
+        while (index2 >= 0 && solucion.get(helicoptero2).get(index2) >= 0) {
+            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index2)).getNPersonas();
+            --index2;
+        }
+        return (carga_h1 + grupos.get(grupo2).getNPersonas() <= capacidad_max) &&
+                (carga_h2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);
     }
 }
