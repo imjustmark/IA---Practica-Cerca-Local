@@ -61,4 +61,37 @@ public class RescateEstado {
 
         }
     }
+
+    // OPERADORES
+    // Los helicópteros van numerados de 0 a H.
+    // Los grupos van numerados de 0 a G.
+    // La posicion i del vector solución representa los grupos recogidos por el helicóptero i.
+
+    public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero, int grupo_previo) {
+        solucion.get(helicoptero).remove(grupo);
+        int indice_anterior = solucion.get(nuevo_helicoptero).indexOf(grupo_previo);
+        ++indice_anterior;
+        solucion.get(nuevo_helicoptero).add(indice_anterior,grupo);
+    }
+
+    public void CambiaOrdenGrupos(int helicoptero, int grupo1, int grupo2) {
+        int index1 = solucion.get(helicoptero).indexOf(grupo1);
+        int index2 = solucion.get(helicoptero).indexOf(grupo2);
+        solucion.get(helicoptero).set(index1, grupo2);
+        solucion.get(helicoptero).set(index2, grupo1);
+    }
+
+    public void IntercambiaGruposDeHelicopteros(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
+        int index1 = solucion.get(helicoptero1).indexOf(grupo1);
+        int index2 = solucion.get(helicoptero2).indexOf(grupo2);
+        solucion.get(helicoptero1).set(index1, grupo2);
+        solucion.get(helicoptero2).set(index2, grupo1);
+    }
+
+    public void ParadaEnCentro(int centro, int helicoptero, int grupo_previo) {
+        int index = solucion.get(helicoptero).indexOf(grupo_previo);
+        ++index;
+        int aux = (-1) * centro;
+        solucion.get(helicoptero).add(index, aux);
+    }
 }
