@@ -15,7 +15,7 @@ import java.util.*;
  ***   src.RescateEstado.java                                        ***
  ***                                                                 ***
  ***********************************************************************/
-
+//hola
 public class RescateEstado {
 
     static int maxgrupos = 20;
