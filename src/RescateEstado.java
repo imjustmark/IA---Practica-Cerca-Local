@@ -54,17 +54,20 @@ public class RescateEstado {
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
         Random random = new Random();
 
-        for (int i=0; i < Ngrupos; ++i){
-            //seleccionamos un centro random con helicopteros > 0
-            int c = random.nextInt(Ncentros);
-            while (centros.get(c).getNHelicopteros() == 0)
-                c = random.nextInt(Ncentros);
-
-            for (int j=0; j < Nhelicopteros; j++){
-                if (solucion.get(j).get(solucion.get(j).size() - 1) == -c)
-                    solucion.get(j).add(i);
+        for (int i=0; i < Ncentros; ++i){
+            for (int j=0; j < Nhelicopteros; ++j){
+                int capacidadHelicoptero = capacidad_max;
+                while (capacidadHelicoptero > 0) {
+                    int g = random.nextInt(Ngrupos);
+                    solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                    capacidadHelicoptero -= grupos.get(g).getNPersonas();
+                }
             }
         }
+    }
+
+    public ArrayList<ArrayList<Integer>> getSolucion() {
+        return solucion;
     }
 
     // OPERADORES
