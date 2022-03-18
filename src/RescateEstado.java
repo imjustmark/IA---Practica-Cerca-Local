@@ -55,11 +55,15 @@ public class RescateEstado {
         Random random = new Random();
 
         for (int i=0; i < Ngrupos; ++i){
-           int c = random.nextInt(Ncentros);
-           while (centros.get(c).getNHelicopteros() == 0)
-               c = random.nextInt(Ncentros);
+            //seleccionamos un centro random con helicopteros > 0
+            int c = random.nextInt(Ncentros);
+            while (centros.get(c).getNHelicopteros() == 0)
+                c = random.nextInt(Ncentros);
 
-
+            for (int j=0; j < Nhelicopteros; j++){
+                if (solucion.get(j).get(solucion.get(j).size() - 1) == -c)
+                    solucion.get(j).add(i);
+            }
         }
     }
 
