@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import static src.RescateEstado.*;
 
-public class Heuristic1 implements HeuristicFunction{
+public class Heuristic2 implements HeuristicFunction{
 
     public double tiempoDest(int coordx1, int coordy1, int coordx2, int coordy2){
-        return Math.sqrt((coordx1-coordx2)^2 + (coordy1-coordy2)^2)/velocidadH;
+        return Math.sqrt((double)((coordx1-coordx2)^2 + (coordy1-coordy2)^2))/velocidadH;
     }
 
     public double calculaTiempoH(int H, Object n){
@@ -63,7 +63,7 @@ public class Heuristic1 implements HeuristicFunction{
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
             double tempsH = calculaTiempoH(i, state);
-            sum += tempsH;
+            sum += tempsH*tempsH;
         }
         return sum;
     }
