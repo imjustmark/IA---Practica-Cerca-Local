@@ -32,6 +32,7 @@ public class RescateEstado {
     public static Centros centros;
 
     public ArrayList<ArrayList<Integer> > solucion;
+    Boolean[] gruposAsignados;
 
     public RescateEstado(int seed){
        Random random = new Random();
@@ -53,8 +54,11 @@ public class RescateEstado {
     }
 
     //WIP
+    //-1 implica helicoptero en centro
     public void EstadoInicialRandom(){
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
+        gruposAsignados = new Boolean[Ngrupos];
+        Arrays.fill(gruposAsignados, Boolean.FALSE);
         Random random = new Random();
 
         for (int i=0; i < Ncentros; ++i){
@@ -62,8 +66,21 @@ public class RescateEstado {
                 int capacidadHelicoptero = capacidad_max;
                 while (capacidadHelicoptero > 0) {
                     int g = random.nextInt(Ngrupos);
-                    solucion.get(Ncentros * Nhelicopteros + j).add(g);
-                    capacidadHelicoptero -= grupos.get(g).getNPersonas();
+                    while (gruposAsignados[g])
+                        g = random.nextInt(Ngrupos);
+                    int personasGrupo = grupos.get(g).getNPersonas();
+
+                    if (capacidad_max-personasGrupo > 0) {
+                        gruposAsignados[g] = Boolean.TRUE;
+                        solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                        capacidadHelicoptero -= grupos.get(g).getNPersonas();
+                    }
+                    else if (capacidad_max-personasGrupo == 0) {
+                        gruposAsignados[g] = Boolean.TRUE;
+                        solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                        solucion.get(Ncentros * Nhelicopteros + j).add(-1);
+                        capacidadHelicoptero -= grupos.get(g).getNPersonas();
+                    }
                 }
             }
         }
