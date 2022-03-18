@@ -21,10 +21,12 @@ public class RescateEstado {
     static int maxgrupos = 20;
     static int maxcentros = 20;
     static int maxhelicopteros = 20;
+    //maxhelicopteros por centro.
 
     static int capacidad_max = 15;
 
     int Ngrupos, Ncentros, Nhelicopteros;
+    //Nhelicopteros por centro.
 
     public static Grupos grupos;
     public static Centros centros;
@@ -50,6 +52,7 @@ public class RescateEstado {
         RescateEstado.centros = new Centros(centros, helicopteros, seed);
     }
 
+    //WIP
     public void EstadoInicialRandom(){
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
         Random random = new Random();
