@@ -24,6 +24,10 @@ public class RescateEstado {
     //maxhelicopteros por centro.
 
     static int capacidad_max = 15;
+    static double tiempoCentro = 10.0;
+    static double tiempoPersonaPriod1 = 2.0;
+    static double tiempoPersonaPriod2 = 1.0;
+    static double velocidadH = (100.0/60.0);
 
     int Ngrupos, Ncentros, Nhelicopteros;
     //Nhelicopteros por centro.
