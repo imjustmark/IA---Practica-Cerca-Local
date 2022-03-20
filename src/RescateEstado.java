@@ -65,29 +65,36 @@ public class RescateEstado {
         Arrays.fill(gruposAsignados, Boolean.FALSE);
         Random random = new Random();
 
-        for (int i=0; i < Ncentros; ++i){
-            for (int j=0; j < Nhelicopteros; ++j){
-                int capacidadHelicoptero = capacidad_max;
-                while (capacidadHelicoptero > 0) {
-                    int g = random.nextInt(Ngrupos);
-                    while (gruposAsignados[g])
-                        g = random.nextInt(Ngrupos);
-                    int personasGrupo = grupos.get(g).getNPersonas();
+        while (!TodosGruposAsignados()){
+            for (int i=0; i < Ncentros; ++i)
+                for (int j = 0; j < centros.get(i).getNHelicopteros(); ++j) {
+                    int capacidadHelicoptero = capacidad_max;
+                    while (capacidadHelicoptero > 0) {
+                        int g = random.nextInt(Ngrupos);
+                        while (gruposAsignados[g])
+                            g = random.nextInt(Ngrupos);
+                        int personasGrupo = grupos.get(g).getNPersonas();
 
-                    if (capacidad_max-personasGrupo > 0) {
-                        gruposAsignados[g] = Boolean.TRUE;
-                        solucion.get(Ncentros * Nhelicopteros + j).add(g);
-                        capacidadHelicoptero -= grupos.get(g).getNPersonas();
-                    }
-                    else if (capacidad_max-personasGrupo == 0) {
-                        gruposAsignados[g] = Boolean.TRUE;
-                        solucion.get(Ncentros * Nhelicopteros + j).add(g);
-                        solucion.get(Ncentros * Nhelicopteros + j).add(-1);
-                        capacidadHelicoptero -= grupos.get(g).getNPersonas();
+                        if (capacidad_max - personasGrupo > 0) {
+                            gruposAsignados[g] = Boolean.TRUE;
+                            solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                            capacidadHelicoptero -= personasGrupo;
+                        } else if (capacidad_max - personasGrupo == 0) {
+                            gruposAsignados[g] = Boolean.TRUE;
+                            solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                            solucion.get(Ncentros * Nhelicopteros + j).add(-1);
+                            capacidadHelicoptero -= personasGrupo;
+                        }
                     }
                 }
-            }
         }
+    }
+
+    private Boolean TodosGruposAsignados(){
+        for (Boolean gruposAsignado : gruposAsignados) {
+            if (!gruposAsignado) return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
     public ArrayList<ArrayList<Integer>> getSolucion() {
