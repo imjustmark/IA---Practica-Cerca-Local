@@ -90,6 +90,33 @@ public class RescateEstado {
         }
     }
 
+    public void EstadoInicial(){
+        solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
+        Random random = new Random();
+        Integer[] capacidadHelicopteros;
+        capacidadHelicopteros = new Integer[Nhelicopteros*Ncentros];
+        Arrays.fill(capacidadHelicopteros, capacidad_max);
+
+        for (int g=0; g<Ngrupos; ++g) {
+            int centro = random.nextInt(Ncentros);
+            int helicoptero = random.nextInt(centros.get(centro).getNHelicopteros());
+            int index = centro * Nhelicopteros + helicoptero;
+
+            if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() > 0) {
+                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
+                capacidadHelicopteros[index] -= grupos.get(g).getNPersonas();
+            } else if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() == 0) {
+                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
+                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(-1);
+                capacidadHelicopteros[index] = capacidad_max;
+            } else if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() < 0) {
+                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(-1);
+                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
+                capacidadHelicopteros[index] = capacidad_max - grupos.get(g).getNPersonas();
+            }
+        }
+    }
+
     private Boolean TodosGruposAsignados(){
         for (Boolean gruposAsignado : gruposAsignados) {
             if (!gruposAsignado) return Boolean.FALSE;
