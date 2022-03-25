@@ -57,9 +57,8 @@ public class RescateEstado {
         RescateEstado.centros = new Centros(centros, helicopteros, seed);
     }
 
-    //WIP
     //-1 implica helicoptero en centro
-    public void EstadoInicialRandom(){
+    public void EstadoInicial(){
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
         gruposAsignados = new Boolean[Ngrupos];
         Arrays.fill(gruposAsignados, Boolean.FALSE);
@@ -90,7 +89,7 @@ public class RescateEstado {
         }
     }
 
-    public void EstadoInicial(){
+    public void EstadoInicial2(){
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
         Random random = new Random();
         Integer[] capacidadHelicopteros;
