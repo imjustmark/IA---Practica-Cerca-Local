@@ -31,7 +31,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                             ArrayList<Integer> gruposNH = solucion.get(nh);
                             for (int gp = 0; gp < NgruposNH; ++gp) {     // Iterar sobre los grupos del nuevo helicoptero
                                 int grupoNH = gruposNH.get(gp);
-                                if (grupoNH >= 0 && estado.EsValidoCambiaGrupo(grupoH, nh, grupoNH)) {
+                                if (estado.EsValidoCambiaGrupo(grupoH, nh, grupoNH)) {
                                     RescateEstado nuevo_estado = new RescateEstado(estado);
                                     nuevo_estado.CambiaGrupoDeHelicoptero(grupoH, h, nh, grupoNH);
                                     String mensaje = "Cambiar grupo " + grupoH + " del helicóptero " + h + " al helicóptero " + nh + " después de " + grupoNH + ".";
@@ -55,7 +55,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                     if (grupo >= 0 && grupo2 >= 0 && estado.EsValidoCambioOrden(h,grupo,grupo2)) {
                         RescateEstado nuevo_estado = new RescateEstado(estado);
                         nuevo_estado.CambiaOrdenGrupos(h,grupo,grupo2);
-                        String mensaje = "Cambiar de grupo " + grupo + " y " + grupo2 + " en el helicoptero " + h + ".";
+                        String mensaje = "Cambiar de orden el grupo " + grupo + " y el " + grupo2 + " en el helicoptero " + h + ".";
                         retVal.add(new Successor(mensaje, nuevo_estado));
                     }
                 }
@@ -77,7 +77,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                             if (grupoNH >= 0 && estado.EsValidoIntercambio(grupoH,h,grupoNH,nh)) {
                                 RescateEstado nuevo_estado = new RescateEstado(estado);
                                 nuevo_estado.IntercambiaGruposDeHelicopteros(grupoH,h,grupoNH,nh);
-                                String mensaje = "Intercambiar grupo " + grupoH + " del helicoptero " + h + " con el grupo " + grupoNH + " del helicoptero " + nh + ".";
+                                String mensaje = "Intercambiar el grupo " + grupoH + " del helicoptero " + h + " con el grupo " + grupoNH + " del helicoptero " + nh + ".";
                                 retVal.add(new Successor(mensaje, nuevo_estado));
                             }
                         }
