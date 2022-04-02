@@ -184,9 +184,37 @@ public class RescateEstado {
         return carga_actual + grupos.get(grupo).getNPersonas() <= capacidad_max;
     }
 
-    //todo: Implementar comprobación cambio de orden
+    // todo: Es posible que se deba comprobar que en los intervalos entre visitas a la base no se supere la carga maxima.
+    // Aqui está hecho, faltaría en las demás.
     public boolean EsValidoCambioOrden(int helicoptero, int grupo1, int grupo2) {
-        return true;
+        int carga_actual_1 = 0;
+        int carga_actual_2 = 0;
+        int index_original_1 = solucion.get(helicoptero).indexOf(grupo1);
+        int index_original_2 = solucion.get(helicoptero).indexOf(grupo2);
+
+        int index_max_1 = index_original_1 + 1;
+        while (solucion.get(helicoptero).get(index_max_1) >= 0) {
+            carga_actual_1 = carga_actual_1 + grupos.get(solucion.get(helicoptero).get(index_max_1)).getNPersonas();
+            ++index_max_1;
+        }
+        int index_min_1 = index_original_1 - 1;
+        while (solucion.get(helicoptero).get(index_min_1) >= 0) {
+            carga_actual_1 = carga_actual_1 + grupos.get(solucion.get(helicoptero).get(index_min_1)).getNPersonas();
+            --index_min_1;
+        }
+        int index_max_2 = index_original_2 + 1;
+        while (solucion.get(helicoptero).get(index_max_2) >= 0) {
+            carga_actual_2 = carga_actual_2 + grupos.get(solucion.get(helicoptero).get(index_max_2)).getNPersonas();
+            ++index_max_2;
+        }
+        int index_min_2 = index_original_2 - 1;
+        while (solucion.get(helicoptero).get(index_min_2) >= 0) {
+            carga_actual_2 = carga_actual_2 + grupos.get(solucion.get(helicoptero).get(index_min_2)).getNPersonas();
+            --index_min_2;
+        }
+
+        return (carga_actual_1 + grupos.get(grupo2).getNPersonas() <= capacidad_max) &&
+                (carga_actual_2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);
     }
 
     public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
