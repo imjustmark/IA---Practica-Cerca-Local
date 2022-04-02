@@ -57,6 +57,14 @@ public class RescateEstado {
         RescateEstado.centros = new Centros(centros, helicopteros, seed);
     }
 
+    public RescateEstado(RescateEstado estado_a_copiar) {
+        Ngrupos = estado_a_copiar.Ngrupos;
+        Ncentros = estado_a_copiar.Ncentros;
+        Nhelicopteros = estado_a_copiar.Nhelicopteros;
+
+        solucion = estado_a_copiar.getSolucion();
+    }
+
     //-1 implica helicoptero en centro
     public void EstadoInicial(){
         solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
@@ -139,6 +147,11 @@ public class RescateEstado {
         solucion.get(nuevo_helicoptero).add(indice_anterior,grupo);
     }
 
+    public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero) {
+        solucion.get(helicoptero).remove(grupo);
+        solucion.get(nuevo_helicoptero).add(0,grupo);
+    }
+
     public void CambiaOrdenGrupos(int helicoptero, int grupo1, int grupo2) {
         int index1 = solucion.get(helicoptero).indexOf(grupo1);
         int index2 = solucion.get(helicoptero).indexOf(grupo2);
@@ -153,11 +166,10 @@ public class RescateEstado {
         solucion.get(helicoptero2).set(index2, grupo1);
     }
 
-    public void ParadaEnCentro(int centro, int helicoptero, int grupo_previo) {
+    public void ParadaEnCentro(int helicoptero, int grupo_previo) {
         int index = solucion.get(helicoptero).indexOf(grupo_previo);
         ++index;
-        int aux = (-1) * centro;
-        solucion.get(helicoptero).add(index, aux);
+        solucion.get(helicoptero).add(index, -1);
     }
 
     // COMPROBADORAS APLICACIÓN DE OPERADORES
@@ -170,6 +182,11 @@ public class RescateEstado {
             --index;
         }
         return carga_actual + grupos.get(grupo).getNPersonas() <= capacidad_max;
+    }
+
+    //todo: Implementar comprobación cambio de orden
+    public boolean EsValidoCambioOrden(int helicoptero, int grupo1, int grupo2) {
+        return true;
     }
 
     public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
