@@ -53,7 +53,7 @@ public class SuccessorFunctionSA implements SuccessorFunction {
                 int index_rand_2 = random.nextInt(NgruposH2);
                 grupo2 = gruposH2.get(index_rand_2);
 
-            } while (!estado.EsValidoCambiaGrupo(grupo1, h_rand_2, grupo2));
+            } while (!estado.EsValidoCambiaGrupo(grupo1));
 
             RescateEstado nuevo_estado = new RescateEstado(estado);
             nuevo_estado.CambiaGrupoDeHelicoptero(grupo1, h_rand_1, h_rand_2, grupo2);
@@ -104,26 +104,11 @@ public class SuccessorFunctionSA implements SuccessorFunction {
                     grupo1 = gruposH1.get(index_rand_1);
                     grupo2 = gruposH2.get(index_rand_2);
                 } while(grupo1 < 0 || grupo2 < 0);
-            } while(!estado.EsValidoIntercambio(grupo1,h_rand_1,grupo2,h_rand_2));
+            } while(!estado.EsValidoIntercambio(grupo1,grupo2));
 
             RescateEstado nuevo_estado = new RescateEstado(estado);
             nuevo_estado.IntercambiaGruposDeHelicopteros(grupo1,h_rand_1,grupo2,h_rand_2);
             String mensaje = "Intercambiar el grupo " + grupo1 + " del helicoptero " + h_rand_1 + " con el grupo " + grupo2 + " del helicoptero " + h_rand_2 + ".";
-            retVal.add(new Successor(mensaje, nuevo_estado));
-        }
-        else {
-            // Aplica operador4
-            int h_rand = random.nextInt(Nhelicopteros);
-            ArrayList<Integer> gruposH = solucion.get(h_rand);
-            int NgruposH = gruposH.size();
-            int grupo;
-            do {
-                int index_rand = random.nextInt(NgruposH);
-                grupo = gruposH.get(index_rand);
-            } while(grupo < 0);
-            RescateEstado nuevo_estado = new RescateEstado(estado);
-            nuevo_estado.ParadaEnCentro(h_rand,grupo);
-            String mensaje = "Añadir una parada en centro al helicoptero " + h_rand + " después de recoger al grupo " + grupo + ".";
             retVal.add(new Successor(mensaje, nuevo_estado));
         }
 
