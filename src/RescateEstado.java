@@ -352,7 +352,7 @@ public class RescateEstado {
             added2A = true;
         }
         if(!added2A && !added2B && carga_h1_antes + carga_h1_despues - grupos.get(grupo1).getNPersonas() > capacidad_max) {
-            solucion.get(helicoptero1).add(index2, -1);
+            solucion.get(helicoptero2).add(index2, -1);
         }
     }
 
