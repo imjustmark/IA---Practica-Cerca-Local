@@ -23,26 +23,23 @@ public class SuccessorFunctionHC implements SuccessorFunction {
         // Cambiar todos los grupos de helicoptero a todos los otros helicopteros detrás de todos los otros grupos.
         for (int h = 0; h < Nhelicopteros * NCentros; ++h) {                       // Iterar sobre todos los helicopteros
             int NgruposH = solucion.get(h).size();
-            ArrayList<Integer> gruposH = solucion.get(h);
-            for (int g = 1; g < NgruposH - 1; ++g) {                        // Iterar sobre todos los grupos de cada helicoptero
-                int grupoH = gruposH.get(g);
-                if (grupoH >= 0) {                                      // Evitar cambiar una parada en centro
-                    for (int nh = 0; nh < Nhelicopteros * NCentros; ++nh) {        // Iterar sobre los demas helicopteros
-                        if (h != nh) {
-                            int NgruposNH = solucion.get(nh).size();
-                            for (int gp = 0; gp < NgruposNH-1; ++gp) {     // Iterar sobre los grupos del nuevo helicoptero
-                                if (estado.EsValidoCambiaGrupo(g, nh, gp)) {
-                                    StringBuffer S = new StringBuffer();
-                                    RescateEstado nuevo_estado = new RescateEstado(estado);
-                                    nuevo_estado.CambiaGrupoDeHelicoptero(g, h, nh, gp);
-                                    int grupoNH = solucion.get(nh).get(gp);
-                                    S.append("Cambiar grupo " + grupoH + " del helicóptero " + h + " al helicóptero " + nh + " después de " + grupoNH + ".\n");
-                                    retVal.add(new Successor(S.toString(), nuevo_estado));
-
-                                }
+            for (int i = 1; i < NgruposH - 1; ++i) {
+                int grupo1 = solucion.get(h).get(i);
+                for (int h2 = 0; h2 < Nhelicopteros * NCentros; ++h2) {
+                    if (h != h2) {
+                        int NgruposH2 = solucion.get(h2).size();
+                        for (int j = 0; j < NgruposH2 - 1; ++j) {
+                            int grupo2 = solucion.get(h2).get(j);
+                            if (estado.EsValidoCambiaGrupo(grupo1)) {
+                                StringBuffer S = new StringBuffer();
+                                RescateEstado nuevo_estado = new RescateEstado(estado);
+                                nuevo_estado.CambiaGrupoDeHelicoptero(i, h, h2, j);
+                                S.append("Cambiar de orden el grupo " + grupo1 + " y el " + grupo2 + " en el helicoptero " + h + ".\n");
+                                retVal.add(new Successor(S.toString(), nuevo_estado));
                             }
                         }
                     }
+
                 }
             }
         }

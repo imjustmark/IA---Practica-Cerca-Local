@@ -161,7 +161,21 @@ public class RescateEstado {
         if (solucion.get(helicoptero).get(index_g) == -1 && solucion.get(helicoptero).get(index_g -1) == -1) {
             solucion.get(helicoptero).remove(index_g);
         }
-        solucion.get(nuevo_helicoptero).add(index_ga + 1,grupo);
+        int carga_antes = 0;
+        int carga_despues = 0;
+        int index_min = index_ga - 1;
+        while (index_min >= 0 && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
+            carga_antes = carga_antes + grupos.get(solucion.get(nuevo_helicoptero).get(index_min)).getNPersonas();
+            --index_min;
+        }
+        int index_max = index_ga;
+        while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_max) >= 0) {
+            carga_despues = carga_despues + grupos.get(solucion.get(nuevo_helicoptero).get(index_max)).getNPersonas();
+            ++index_max;
+        }
+        if(carga_despues + grupos.get(grupo).getNPersonas() > capacidad_max) solucion.get(nuevo_helicoptero).add(index_ga, -1);
+        solucion.get(nuevo_helicoptero).add(index_ga, grupo);
+        if(carga_antes + grupos.get(grupo).getNPersonas() > capacidad_max) solucion.get(nuevo_helicoptero).add(index_ga, -1);
     }
 
     public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero) {
@@ -230,22 +244,10 @@ public class RescateEstado {
 
     // COMPROBADORAS APLICACIÓN DE OPERADORES
 
-    public boolean EsValidoCambiaGrupo(int grupo, int nuevo_helicoptero, int index) {
-        int carga_actual = 0;
-        int index_min = index;
-        while (index_min >= 0 && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
-            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_min)).getNPersonas();
-            --index_min;
-        }
-        int index_max = index + 1;
-        while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_max) >= 0) {
-            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_max)).getNPersonas();
-            ++index_max;
-        }
-        return carga_actual + grupos.get(grupo).getNPersonas() <= capacidad_max;
+    public boolean EsValidoCambiaGrupo(int grupo) {
+        return grupo >= 0;
     }
 
-    // todo: Es posible que se deba comprobar que en los intervalos entre visitas a la base no se supere la carga maxima.
     // Aqui está hecho, faltaría en las demás.
     public boolean EsValidoCambioOrden(int helicoptero, int grupo1, int grupo2) {
         int carga_actual_1 = 0;
