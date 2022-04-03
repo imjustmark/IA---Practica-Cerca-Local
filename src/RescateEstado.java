@@ -102,6 +102,10 @@ public class RescateEstado {
 
     public void EstadoInicial2(){
         solucion = new ArrayList<>();
+        for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
+            ArrayList<Integer> aux = new ArrayList<>();
+            solucion.add(i, aux);
+        }
         Random random = new Random();
         ArrayList<Integer> capacidadHelicopteros = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
         Collections.fill(capacidadHelicopteros, capacidad_max);
