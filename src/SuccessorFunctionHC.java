@@ -68,45 +68,37 @@ public class SuccessorFunctionHC implements SuccessorFunction {
 
         //Intercambiar todos los grupos de un helicóptero con todos los otros
         for (int h = 0; h < Nhelicopteros*NCentros; ++h) {
+
             int NgruposH = solucion.get(h).size();
             ArrayList<Integer> gruposH = solucion.get(h);
+
             for (int g = 1; g < NgruposH - 1; ++g) {
+
                 int grupoH = gruposH.get(g);
-                if (grupoH >= 0) {
-                    for (int nh = h + 1; nh < Nhelicopteros * NCentros; ++nh) {
-                        int NgruposNH = solucion.get(nh).size();
-                        ArrayList<Integer> gruposNH = solucion.get(nh);
-                        for (int g2 = 0; g2 < NgruposNH; ++g2) {
-                            int grupoNH = gruposNH.get(g2);
-                            if (grupoNH >= 0 && estado.EsValidoIntercambio(grupoH,h,grupoNH,nh)) {
-                                StringBuffer S = new StringBuffer();
-                                RescateEstado nuevo_estado = new RescateEstado(estado);
-                                nuevo_estado.IntercambiaGruposDeHelicopteros(grupoH,h,grupoNH,nh);
-                                S.append("Intercambiar el grupo " + grupoH + " del helicoptero " + h + " con el grupo " + grupoNH + " del helicoptero " + nh + ".\n");
-                                retVal.add(new Successor(S.toString(), nuevo_estado));
-                            }
+
+                for (int nh = h + 1; nh < Nhelicopteros * NCentros; ++nh) {
+
+                    int NgruposNH = solucion.get(nh).size();
+                    ArrayList<Integer> gruposNH = solucion.get(nh);
+
+                    for (int g2 = 1; g2 < NgruposNH-1; ++g2) {
+
+                        int grupoNH = gruposNH.get(g2);
+
+                        if (estado.EsValidoIntercambio(grupoH,h,grupoNH,nh)) {
+
+                            StringBuffer S = new StringBuffer();
+                            RescateEstado nuevo_estado = new RescateEstado(estado);
+                            nuevo_estado.IntercambiaGruposDeHelicopteros(grupoH,h,grupoNH,nh);
+                            S.append("Intercambiar el grupo " + grupoH + " del helicoptero " + h + " con el grupo " + grupoNH + " del helicoptero " + nh + ".\n");
+                            retVal.add(new Successor(S.toString(), nuevo_estado));
+
                         }
                     }
                 }
+
             }
         }
-
-        // Añadir una parada en centro después de cada grupo
-        for (int h = 0; h < Nhelicopteros*NCentros; ++h) {
-            int NgruposH = solucion.get(h).size();
-            ArrayList<Integer> gruposH = solucion.get(h);
-            for (int g = 0; g < NgruposH; ++g) {
-                int grupo = gruposH.get(g);
-                if (grupo >= 0) {
-                    StringBuffer S = new StringBuffer();
-                    RescateEstado nuevo_estado = new RescateEstado(estado);
-                    nuevo_estado.ParadaEnCentro(h,grupo);
-                    S.append("Añadir una parada en centro al helicoptero " + h + " después de recoger al grupo " + grupo + ".");
-                    retVal.add(new Successor(S.toString(), nuevo_estado));
-                }
-            }
-        }
-
         return retVal;
     }
 }
