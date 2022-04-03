@@ -50,7 +50,7 @@ public class Heuristic1 implements HeuristicFunction{
                 if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
                     sum += state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
                 }
-                else {
+                else if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
                     sum += state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
                 }
             }
@@ -67,7 +67,7 @@ public class Heuristic1 implements HeuristicFunction{
             double tempsH = calculaTiempoH(i, state);
             sum += tempsH;
         }
-        sum = -sum;
+        sum = (-1)*sum;
         return sum;
     }
 }
