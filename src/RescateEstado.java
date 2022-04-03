@@ -309,7 +309,7 @@ public class RescateEstado {
             carga_h1_despues = carga_h1_despues + grupos.get(solucion.get(helicoptero1).get(index_max_1)).getNPersonas();
             ++index_max_1;
         }
-        carga_h1_despues = carga_h2_despues + grupos.get(grupo2).getNPersonas();
+        carga_h1_despues = carga_h1_despues + grupos.get(grupo2).getNPersonas();
 
         int index_min_2 = index2 - 1;
         while (index_min_2 >= 0 && solucion.get(helicoptero2).get(index_min_2) >= 0) {
@@ -351,7 +351,7 @@ public class RescateEstado {
             solucion.get(helicoptero2).add(index2, -1);
             added2A = true;
         }
-        if(!added2A && !added2B && carga_h1_antes + carga_h1_despues - grupos.get(grupo1).getNPersonas() > capacidad_max) {
+        if(!added2A && !added2B && carga_h2_antes + carga_h2_despues - grupos.get(grupo1).getNPersonas() > capacidad_max) {
             solucion.get(helicoptero2).add(index2, -1);
         }
     }
@@ -456,6 +456,7 @@ public class RescateEstado {
     }
 
     void print_solution(){
+        /*
         for(int i = 0; i < solucion.size(); ++i){
             System.out.print("Helicoptero ");
             System.out.print(i);
@@ -466,6 +467,7 @@ public class RescateEstado {
             }
             System.out.println();
         }
+         */
         System.out.print("Valor maxim: ");
         System.out.println(valor_maxim());
         System.out.println();
@@ -544,5 +546,19 @@ public class RescateEstado {
             }
         }
         return sum;
+    }
+
+    boolean comprobacion() {
+        int carga = 0;
+        for (int i = 0; i < solucion.size(); ++i) {
+            ArrayList<Integer> grupos_helicoptero = solucion.get(i);
+            for (int j = 0; j < grupos_helicoptero.size(); ++j) {
+                int ID = grupos_helicoptero.get(j);
+                if (ID == -1) carga = 0;
+                else carga = carga + grupos.get(ID).getNPersonas();
+                if (carga > capacidad_max) return false;
+            }
+        }
+        return true;
     }
 }

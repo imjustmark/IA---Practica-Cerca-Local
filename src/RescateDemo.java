@@ -4,6 +4,8 @@ import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 public class RescateDemo {
@@ -12,10 +14,14 @@ public class RescateDemo {
         System.out.println("Introduzca la seed deseada: ");
         Scanner in = new Scanner(System.in);
         int seed = in.nextInt();
+        Instant inicio = Instant.now();
         RescateEstado state = new RescateEstado(seed);
         state.EstadoInicial2();
         state.print_solution();
         helicoptersHillClimbing(state);
+        Instant finish =Instant.now();
+        long timeElapsed = Duration.between(inicio,finish).toMillis();
+        System.out.println("Elapsed time: " + timeElapsed + " ms.");
     }
 
     private static void helicoptersSimulatedAnnealing(RescateEstado state) {
@@ -40,10 +46,11 @@ public class RescateDemo {
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
-            printActions(agent.getActions());
+            //printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
-            solucionfinal.print_solution();
+            if (solucionfinal.comprobacion()) solucionfinal.print_solution();
+            else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros!");
         } catch (Exception e) {
             e.printStackTrace();
         }
