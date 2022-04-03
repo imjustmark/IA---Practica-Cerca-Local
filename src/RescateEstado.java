@@ -236,10 +236,8 @@ public class RescateEstado {
 
     }
 
-    public void ParadaEnCentro(int helicoptero, int grupo_previo) {
-        int index = solucion.get(helicoptero).indexOf(grupo_previo);
-        ++index;
-        solucion.get(helicoptero).add(index, -1);
+    public void BorrarParada(int helicoptero, int index) {
+        solucion.get(helicoptero).remove(index);
     }
 
     // COMPROBADORAS APLICACIÓN DE OPERADORES
@@ -280,35 +278,28 @@ public class RescateEstado {
                 (carga_actual_2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);
     }
 
-    public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
+    public boolean EsValidoIntercambio(int grupo1, int grupo2) {
         return (grupo1 >= 0) && (grupo2 >= 0);
-        /*int carga_h1 = 0;
-        int carga_h2 = 0;
-        int index1 = solucion.get(helicoptero1).indexOf(grupo1);
-        int index2 = solucion.get(helicoptero2).indexOf(grupo2);
+    }
 
-        int index_min_1 = index1 - 1;
-        while (index_min_1 >= 0 && solucion.get(helicoptero1).get(index_min_1) >= 0) {
-            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index_min_1)).getNPersonas();
-            --index_min_1;
+    public boolean EsValidoBorrarParada(int helicoptero, int indice) {
+        ArrayList<Integer> grupos_helicoptero = solucion.get(helicoptero);
+
+        int carga_anterior = 0;
+        int index_min = indice - 1;
+        while (index_min >= 0 && grupos_helicoptero.get(index_min) >= 0) {
+            carga_anterior = carga_anterior + grupos.get(solucion.get(helicoptero).get(index_min)).getNPersonas();
+            --index_min;
         }
-        int index_max_1 = index1 + 1;
-        while (index_max_1 < solucion.get(helicoptero1).size()  && solucion.get(helicoptero1).get(index_max_1) >= 0) {
-            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index_max_1)).getNPersonas();
-            ++index_max_1;
+
+        int carga_posterior = 0;
+        int index_max = indice + 1;
+        while (index_max < grupos_helicoptero.size() && grupos_helicoptero.get(index_max) >= 0) {
+            carga_posterior = carga_posterior + grupos.get(solucion.get(helicoptero).get(index_max)).getNPersonas();
+            ++index_max;
         }
-        int index_min_2 = index2 - 1;
-        while (index_min_2 >= 0 && solucion.get(helicoptero2).get(index_min_2) >= 0) {
-            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index_min_2)).getNPersonas();
-            --index_min_2;
-        }
-        int index_max_2 = index2 + 1;
-        while (index_max_2 < solucion.get(helicoptero2).size()  && solucion.get(helicoptero2).get(index_max_2) >= 0) {
-            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index_max_2)).getNPersonas();
-            ++index_max_2;
-        }
-        return (carga_h1 + grupos.get(grupo2).getNPersonas() <= capacidad_max) &&
-                (carga_h2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);*/
+
+        return (carga_anterior + carga_posterior <= capacidad_max);
     }
 
     void print_solution(){
