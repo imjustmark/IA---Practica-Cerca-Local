@@ -46,6 +46,8 @@ public class RescateEstado {
 
        RescateEstado.grupos = new Grupos(Ngrupos, seed);
        RescateEstado.centros = new Centros(Ncentros, Nhelicopteros, seed);
+
+       EstadoInicial2();
     }
 
     public RescateEstado(int grupos, int centros, int helicopteros, int seed){
