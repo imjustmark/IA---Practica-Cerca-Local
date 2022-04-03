@@ -7,18 +7,18 @@ import aima.search.informed.SimulatedAnnealingSearch;
 import java.util.*;
 
 public class RescateDemo {
-    static RescateEstado state;
 
     public static void main(String[] args) {
         System.out.println("Introduzca la seed deseada: ");
         Scanner in = new Scanner(System.in);
         int seed = in.nextInt();
-        state = new RescateEstado(seed);
+        RescateEstado state = new RescateEstado(seed);
+        state.EstadoInicial2();
         state.print_solution();
-        helicoptersHillClimbing();
+        helicoptersHillClimbing(state);
     }
 
-    private static void helicoptersSimulatedAnnealing() {
+    private static void helicoptersSimulatedAnnealing(RescateEstado state) {
         System.out.println("\nHelicopters Simulated Annealing  Search -->");
         try {
             Problem problem = new Problem(state,
@@ -33,14 +33,13 @@ public class RescateDemo {
         }
     }
 
-    private static void helicoptersHillClimbing() {
+    private static void helicoptersHillClimbing(RescateEstado state) {
         System.out.println("\nHelicopters HillClimbing  -->");
         try {
             Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic2());
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
-            System.out.println();
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();

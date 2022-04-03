@@ -47,8 +47,6 @@ public class RescateEstado {
 
        RescateEstado.grupos = new Grupos(Ngrupos, seed);
        RescateEstado.centros = new Centros(Ncentros, Nhelicopteros, seed);
-
-       EstadoInicial2();
     }
 
     public RescateEstado(int grupos, int centros, int helicopteros, int seed){
@@ -66,6 +64,10 @@ public class RescateEstado {
         Nhelicopteros = estado_a_copiar.Nhelicopteros;
 
         solucion = estado_a_copiar.getSolucion();
+    }
+
+    public boolean isGoalState() {
+        return false;
     }
 
     //-1 implica helicoptero en centro
@@ -154,11 +156,12 @@ public class RescateEstado {
     // Los grupos van numerados de 0 a G.
     // La posicion i del vector solución representa los grupos recogidos por el helicóptero i.
 
-    public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero, int grupo_previo) {
-        solucion.get(helicoptero).remove(grupo);
-        int indice_anterior = solucion.get(nuevo_helicoptero).indexOf(grupo_previo);
-        ++indice_anterior;
-        solucion.get(nuevo_helicoptero).add(indice_anterior,grupo);
+    public void CambiaGrupoDeHelicoptero(int index_g, int helicoptero, int nuevo_helicoptero, int index_ga) {
+        int grupo = solucion.get(helicoptero).remove(index_g);
+        if (solucion.get(helicoptero).get(index_g) == -1 && solucion.get(helicoptero).get(index_g -1) == -1) {
+            solucion.get(helicoptero).remove(index_g);
+        }
+        solucion.get(nuevo_helicoptero).add(index_ga + 1,grupo);
     }
 
     public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero) {
@@ -188,16 +191,15 @@ public class RescateEstado {
 
     // COMPROBADORAS APLICACIÓN DE OPERADORES
 
-    public boolean EsValidoCambiaGrupo(int grupo, int nuevo_helicoptero, int grupo_previo) {
+    public boolean EsValidoCambiaGrupo(int grupo, int nuevo_helicoptero, int index) {
         int carga_actual = 0;
-        int index = solucion.get(nuevo_helicoptero).indexOf(grupo_previo);
-        int index_min = index - 1;
+        int index_min = index;
         while (index_min >= 0 && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
             carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_min)).getNPersonas();
             --index_min;
         }
         int index_max = index + 1;
-        while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
+        while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_max) >= 0) {
             carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_max)).getNPersonas();
             ++index_max;
         }
