@@ -4,6 +4,7 @@ import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SuccessorFunctionHC implements SuccessorFunction {
@@ -28,13 +29,13 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                 for (int h2 = 0; h2 < Nhelicopteros * NCentros; ++h2) {
                     if (h != h2) {
                         int NgruposH2 = solucion.get(h2).size();
-                        for (int j = 0; j < NgruposH2 - 1; ++j) {
+                        for (int j = 1; j < NgruposH2; ++j) {
                             int grupo2 = solucion.get(h2).get(j);
                             if (estado.EsValidoCambiaGrupo(grupo1)) {
                                 StringBuffer S = new StringBuffer();
                                 RescateEstado nuevo_estado = new RescateEstado(estado);
                                 nuevo_estado.CambiaGrupoDeHelicoptero(i, h, h2, j);
-                                S.append("Cambiar el grupo " + grupo1 + " del helicóptero " + h + " al helicóptero " + h2 + " después del grupo " + grupo2 + ".\n");
+                                S.append("Cambiar el grupo " + grupo1 + " del helicoptero " + h + " al helicoptero " + h2 + " despues del grupo " + grupo2 + ".\n");
                                 retVal.add(new Successor(S.toString(), nuevo_estado));
                             }
                         }
@@ -106,6 +107,28 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                     nuevo_estado.BorrarParada(h,g);
                     S.append("Eliminamos la parada en centro entre el grupo " + grupo_previo + " y el grupo " + grupo_posterior + " del helicoptero " + h + ".\n");
                     retVal.add(new Successor(S.toString(), nuevo_estado));
+                }
+            }
+        }
+
+        for (int h = 0; h < Nhelicopteros * NCentros; ++h) {
+            ArrayList<Integer> gruposH = solucion.get(h);
+            int NgruposH = gruposH.size();
+            for (int g = 1; g < NgruposH - 1; ++g) {
+                int id = gruposH.get(g);
+                if (id == -1) {
+                    ArrayList<Integer> movimientos = new ArrayList<>(Arrays.asList(-2,-1,1,2));
+                    for (Integer m : movimientos) {
+                        if (estado.EsValidoMoverParada(h,g,m)) {
+                            StringBuffer S = new StringBuffer();
+                            RescateEstado nuevo_estado = new RescateEstado(estado);
+                            int grupo_previo = solucion.get(h).get(g-1);
+                            int grupo_posterior = solucion.get(h).get(g+1);
+                            nuevo_estado.MoverParada(h,g,m);
+                            S.append("Movemos la parada en centro entre el grupo " + grupo_previo + " y el grupo " + grupo_posterior + " del helicoptero " + h + " " + m + " grupos.\n");
+                            retVal.add(new Successor(S.toString(), nuevo_estado));
+                        }
+                    }
                 }
             }
         }
