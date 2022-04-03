@@ -114,13 +114,14 @@ public class RescateEstado {
 
         for (int g=0; g<Ngrupos; ++g) {
             int centro = random.nextInt(Ncentros);
-            int helicoptero = random.nextInt(centros.get(centro).getNHelicopteros());
+            int helicoptero = random.nextInt(Nhelicopteros);
             int index = centro * Nhelicopteros + helicoptero;
 
-            if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() > 0) {
-                solucion.get(helicoptero).add(g);
-                capacidadHelicopteros.set(index, capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas());
-            } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() == 0) {
+            int carga_h = capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas();
+            if (carga_h > 0) {
+                solucion.get(index).add(g);
+                capacidadHelicopteros.set(index, carga_h);
+            } else if (carga_h == 0) {
                 solucion.get(index).add(g);
                 solucion.get(index).add(-1);
                 capacidadHelicopteros.set(index, capacidad_max);
