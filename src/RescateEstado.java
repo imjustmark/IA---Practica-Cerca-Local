@@ -118,7 +118,7 @@ public class RescateEstado {
 
             if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() > 0) {
                 solucion.get(helicoptero).add(g);
-                capacidadHelicopteros.set(index, grupos.get(g).getNPersonas());
+                capacidadHelicopteros.set(index, capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas());
             } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() == 0) {
                 solucion.get(centro * Nhelicopteros + helicoptero).add(g);
                 solucion.get(centro * Nhelicopteros + helicoptero).add(-1);
