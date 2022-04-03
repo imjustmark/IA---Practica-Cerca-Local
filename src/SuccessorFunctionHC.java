@@ -17,7 +17,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
 
         ArrayList<ArrayList<Integer>> solucion = estado.getSolucion();
 
-        // todo: FALTAN OPERADORES: MOVER LA PARADA EN BASE (quizas? no se).
+        // todo: FALTAN OPERADORES: MOVER LA PARADA EN BASE + ELIMINAR PARADA + QUE ELS INTERCANVIS POSIN PARADES SI HO NECESSITEN
         // todo: Considerar que al final sempre hi ha un -1.
 
         // Cambiar todos los grupos de helicoptero a todos los otros helicopteros detrás de todos los otros grupos.
@@ -51,8 +51,8 @@ public class SuccessorFunctionHC implements SuccessorFunction {
         for (int h = 0; h < Nhelicopteros * NCentros; ++h) {
             int NgruposH = solucion.get(h).size();
             ArrayList<Integer> gruposH = solucion.get(h);
-            for (int g = 0; g < NgruposH; ++g) {
-                for (int g2 = g + 1; g2 < NgruposH; ++g2) {
+            for (int g = 1; g < NgruposH - 1; ++g) {
+                for (int g2 = g + 1; g2 < NgruposH - 1; ++g2) {
                     int grupo = gruposH.get(g);
                     int grupo2 = gruposH.get(g2);
                     if (grupo >= 0 && grupo2 >= 0 && estado.EsValidoCambioOrden(h,grupo,grupo2)) {
@@ -70,7 +70,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
         for (int h = 0; h < Nhelicopteros*NCentros; ++h) {
             int NgruposH = solucion.get(h).size();
             ArrayList<Integer> gruposH = solucion.get(h);
-            for (int g = 0; g < NgruposH; ++g) {
+            for (int g = 1; g < NgruposH - 1; ++g) {
                 int grupoH = gruposH.get(g);
                 if (grupoH >= 0) {
                     for (int nh = h + 1; nh < Nhelicopteros * NCentros; ++nh) {
