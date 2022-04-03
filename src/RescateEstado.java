@@ -259,4 +259,17 @@ public class RescateEstado {
         return (carga_h1 + grupos.get(grupo2).getNPersonas() <= capacidad_max) &&
                 (carga_h2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);
     }
+
+    void print_solution(){
+        for(int i = 0; i < solucion.size(); ++i){
+            System.out.print("Helicoptero ");
+            System.out.print(i);
+            System.out.println(":");
+            for(int j = 0; j < solucion.get(i).size(); ++j){
+                System.out.print(solucion.get(i).get(j));
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
 }

@@ -4,10 +4,7 @@ import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 
 public class RescateDemo {
     static RescateEstado state;
@@ -17,6 +14,7 @@ public class RescateDemo {
         Scanner in = new Scanner(System.in);
         int seed = in.nextInt();
         state = new RescateEstado(seed);
+        state.print_solution();
         helicoptersHillClimbing();
     }
 

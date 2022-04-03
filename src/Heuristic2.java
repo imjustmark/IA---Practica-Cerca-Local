@@ -67,6 +67,7 @@ public class Heuristic2 implements HeuristicFunction{
             double tempsH = calculaTiempoH(i, state);
             sum += tempsH*tempsH;
         }
-        return -sum;
+        sum = -sum;
+        return sum;
     }
 }
