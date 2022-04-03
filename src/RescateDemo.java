@@ -13,7 +13,7 @@ public class RescateDemo {
         Scanner in = new Scanner(System.in);
         int seed = in.nextInt();
         RescateEstado state = new RescateEstado(seed);
-        state.EstadoInicial2();
+        state.EstadoInicial();
         state.print_solution();
         helicoptersHillClimbing(state);
     }

@@ -86,6 +86,23 @@ public class RescateEstado {
         return Boolean.TRUE;
     }
 
+    private ArrayList<Integer> randomArray(){
+        ArrayList<Integer> array;
+        array = new ArrayList<>();
+        for (int i=0; i < Ngrupos; ++i){
+            array.add(i);
+        }
+
+        Random random = new Random();
+        for (int i=array.size()-1; i > 0; --i){
+           int index = random.nextInt(i+1);
+           int aux = array.get(index);
+           array.set(index, array.get(i));
+           array.set(i, aux);
+    }
+   return array;
+    }
+
     //-1 implica helicoptero en centro
     public void EstadoInicial(){
         solucion = new ArrayList<>();
@@ -94,32 +111,32 @@ public class RescateEstado {
             aux.add(-1);
             solucion.add(i, aux);
         }
+        ArrayList<Integer> arrayGrupos = randomArray();
         gruposAsignados = new Boolean[Ngrupos];
         Arrays.fill(gruposAsignados, Boolean.FALSE);
         Random random = new Random();
+        int g = 0;
 
-        while (!TodosGruposAsignados()){
+        while (g < Ngrupos){
             for (int i=0; i < Ncentros; ++i)
                 for (int j = 0; j < Nhelicopteros; ++j) {
                     int capacidadHelicoptero = capacidad_max;
                     int numGrupos = 3;
-                    while (capacidadHelicoptero > 0 && numGrupos > 0) {
-                        int g = random.nextInt(Ngrupos);
-                        while (gruposAsignados[g])
-                            g = random.nextInt(Ngrupos);
+                    while (capacidadHelicoptero > 0 && numGrupos > 0 && g < Ngrupos) {
                         int personasGrupo = grupos.get(g).getNPersonas();
 
                         if (capacidadHelicoptero - personasGrupo >= 0) {
-                            solucion.get(Ncentros * Nhelicopteros + j).add(g);
+                            solucion.get(i * Nhelicopteros + j).add(g);
                             gruposAsignados[g] = Boolean.TRUE;
                             capacidadHelicoptero -= personasGrupo;
                             numGrupos--;
+                            ++g;
                         }
                         else {
                             capacidadHelicoptero = 0;
                         }
                     }
-                    solucion.get(Ncentros*Nhelicopteros + j).add(-1);
+                    solucion.get(i*Nhelicopteros + j).add(-1);
                 }
         }
     }
