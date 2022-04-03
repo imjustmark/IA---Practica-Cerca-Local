@@ -36,13 +36,15 @@ public class RescateDemo {
     private static void helicoptersHillClimbing() {
         System.out.println("\nHelicopters HillClimbing  -->");
         try {
-            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic1());
+            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic2());
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
             System.out.println();
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
+            RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
+            solucionfinal.print_solution();
         } catch (Exception e) {
             e.printStackTrace();
         }

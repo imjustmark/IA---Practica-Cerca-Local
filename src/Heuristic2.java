@@ -9,7 +9,7 @@ import static src.RescateEstado.*;
 public class Heuristic2 implements HeuristicFunction{
 
     public double tiempoDest(int coordx1, int coordy1, int coordx2, int coordy2){
-        return Math.sqrt((double)((coordx1-coordx2)^2 + (coordy1-coordy2)^2))/velocidadH;
+        return Math.sqrt(Math.pow(coordx1-coordx2, 2) + Math.pow(coordy1-coordy2, 2))/velocidadH;
     }
 
     public double calculaTiempoH(int H, Object n){
