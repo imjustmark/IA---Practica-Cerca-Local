@@ -34,7 +34,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                                 StringBuffer S = new StringBuffer();
                                 RescateEstado nuevo_estado = new RescateEstado(estado);
                                 nuevo_estado.CambiaGrupoDeHelicoptero(i, h, h2, j);
-                                S.append("Cambiar de orden el grupo " + grupo1 + " y el " + grupo2 + " en el helicoptero " + h + ".\n");
+                                S.append("Cambiar el grupo " + grupo1 + " del helicóptero " + h + " al helicóptero " + h2 + " después del grupo " + grupo2 + ".\n");
                                 retVal.add(new Successor(S.toString(), nuevo_estado));
                             }
                         }
