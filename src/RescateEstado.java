@@ -24,13 +24,16 @@ public class RescateEstado {
     static int maxhelicopteros = 20;
     //maxhelicopteros por centro.
 
+    static int Ngrupos = 100;
+    static int Ncentros = 5;
+    static int Nhelicopteros = 1;
+
     static int capacidad_max = 15;
     static double tiempoCentro = 10.0;
     static double tiempoPersonaPriod1 = 2.0;
     static double tiempoPersonaPriod2 = 1.0;
     static double velocidadH = (100.0/60.0);
 
-    int Ngrupos, Ncentros, Nhelicopteros;
     //Nhelicopteros por centro.
 
     public static Grupos grupos;
@@ -40,10 +43,7 @@ public class RescateEstado {
     Boolean[] gruposAsignados;
 
     public RescateEstado(int seed){
-       Random random = new Random();
-       Ngrupos = random.nextInt(maxgrupos);
-       Ncentros = random.nextInt(maxcentros);
-       Nhelicopteros = random.nextInt(maxhelicopteros);
+//       Random random = new Random();
 
        RescateEstado.grupos = new Grupos(Ngrupos, seed);
        RescateEstado.centros = new Centros(Ncentros, Nhelicopteros, seed);
@@ -101,28 +101,28 @@ public class RescateEstado {
     }
 
     public void EstadoInicial2(){
-        solucion = new ArrayList<ArrayList<Integer>>(Nhelicopteros*Ncentros);
+        solucion = new ArrayList<>();
         Random random = new Random();
-        Integer[] capacidadHelicopteros;
-        capacidadHelicopteros = new Integer[Nhelicopteros*Ncentros];
-        Arrays.fill(capacidadHelicopteros, capacidad_max);
+        ArrayList<Integer> capacidadHelicopteros = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
+        Collections.fill(capacidadHelicopteros, capacidad_max);
+
 
         for (int g=0; g<Ngrupos; ++g) {
             int centro = random.nextInt(Ncentros);
             int helicoptero = random.nextInt(centros.get(centro).getNHelicopteros());
             int index = centro * Nhelicopteros + helicoptero;
 
-            if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() > 0) {
-                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
-                capacidadHelicopteros[index] -= grupos.get(g).getNPersonas();
-            } else if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() == 0) {
-                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
-                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(-1);
-                capacidadHelicopteros[index] = capacidad_max;
-            } else if (capacidadHelicopteros[index] - grupos.get(g).getNPersonas() < 0) {
-                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(-1);
-                solucion.get(Ncentros * Nhelicopteros + helicoptero).add(g);
-                capacidadHelicopteros[index] = capacidad_max - grupos.get(g).getNPersonas();
+            if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() > 0) {
+                solucion.get(helicoptero).add(g);
+                capacidadHelicopteros.set(index, grupos.get(g).getNPersonas());
+            } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() == 0) {
+                solucion.get(centro * Nhelicopteros + helicoptero).add(g);
+                solucion.get(centro * Nhelicopteros + helicoptero).add(-1);
+                capacidadHelicopteros.set(index, capacidad_max);
+            } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() < 0) {
+                solucion.get(centro * Nhelicopteros + helicoptero).add(-1);
+                solucion.get(centro * Nhelicopteros + helicoptero).add(g);
+                capacidadHelicopteros.set(index, capacidad_max - grupos.get(g).getNPersonas());
             }
         }
     }
