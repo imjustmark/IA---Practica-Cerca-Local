@@ -65,7 +65,7 @@ public class Heuristic2 implements HeuristicFunction{
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
             double tempsH = calculaTiempoH(i, state);
-            sum += tempsH*tempsH;
+            sum += Math.pow(tempsH, 2);
         }
         return sum;
     }

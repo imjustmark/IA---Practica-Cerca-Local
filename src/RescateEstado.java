@@ -185,26 +185,36 @@ public class RescateEstado {
         if (solucion.get(helicoptero).get(index_g) == -1 && solucion.get(helicoptero).get(index_g -1) == -1) {
             solucion.get(helicoptero).remove(index_g);
         }
+        int num_grupos_antes = 0;
+        int num_grupos_despues = 0;
         int carga_antes = 0;
         int carga_despues = 0;
         int index_min = index_ga - 1;
         while (index_min >= 0 && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
             carga_antes = carga_antes + grupos.get(solucion.get(nuevo_helicoptero).get(index_min)).getNPersonas();
+            ++ num_grupos_antes;
             --index_min;
         }
         int index_max = index_ga;
         while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_max) >= 0) {
             carga_despues = carga_despues + grupos.get(solucion.get(nuevo_helicoptero).get(index_max)).getNPersonas();
+            ++num_grupos_despues;
             ++index_max;
         }
-        if(carga_despues + grupos.get(grupo).getNPersonas() > capacidad_max) solucion.get(nuevo_helicoptero).add(index_ga, -1);
+        boolean addedB = false;
+        boolean addedA = false;
+        if(carga_despues + grupos.get(grupo).getNPersonas() > capacidad_max || num_grupos_despues > 2) {
+            solucion.get(nuevo_helicoptero).add(index_ga, -1);
+            addedA = true;
+        }
         solucion.get(nuevo_helicoptero).add(index_ga , grupo);
-        if(carga_antes + grupos.get(grupo).getNPersonas() > capacidad_max) solucion.get(nuevo_helicoptero).add(index_ga, -1);
-    }
-
-    public void CambiaGrupoDeHelicoptero(int grupo, int helicoptero, int nuevo_helicoptero) {
-        solucion.get(helicoptero).remove(grupo);
-        solucion.get(nuevo_helicoptero).add(0,grupo);
+        if(carga_antes + grupos.get(grupo).getNPersonas() > capacidad_max || num_grupos_despues > 2) {
+            solucion.get(nuevo_helicoptero).add(index_ga, -1);
+            addedB = true;
+        }
+        if(!addedA && !addedB && ((carga_antes + carga_despues + grupos.get(grupo).getNPersonas() > capacidad_max) || (num_grupos_despues +  num_grupos_antes > 2))){
+            solucion.get(nuevo_helicoptero).add(index_ga, -1);
+        }
     }
 
     public void CambiaOrdenGrupos(int helicoptero, int grupo1, int grupo2) {
@@ -248,12 +258,35 @@ public class RescateEstado {
 
         solucion.get(helicoptero).set(index1, grupo2);
         solucion.get(helicoptero).set(index2, grupo1);
+        boolean added1A = false;
+        boolean added1B = false;
+        boolean added2A = false;
+        boolean added2B = false;
+        if(carga_actual_2_despues > capacidad_max) {
+            solucion.get(helicoptero).add(index2 + 1, -1);
+            added1A = true;
+        }
 
 
-        if(carga_actual_2_despues > capacidad_max) solucion.get(helicoptero).add(index2 + 1, -1);
-        if(carga_actual_2_antes > capacidad_max) solucion.get(helicoptero).add(index2, -1);
-        if(carga_actual_1_despues > capacidad_max) solucion.get(helicoptero).add(index1 + 1, -1);
-        if(carga_actual_1_antes > capacidad_max) solucion.get(helicoptero).add(index1, -1);
+        if(carga_actual_2_antes > capacidad_max){
+            solucion.get(helicoptero).add(index2, -1);
+            added1B = true;
+        }
+
+        if(!added1A && !added1B && (carga_actual_1_antes + carga_actual_1_despues - grupos.get(grupo2).getNPersonas() > capacidad_max)){
+            solucion.get(helicoptero).add(index2, -1);
+        }
+        if(carga_actual_1_despues > capacidad_max) {
+            solucion.get(helicoptero).add(index1 + 1, -1);
+            added2A = true;
+        }
+        if(carga_actual_1_antes > capacidad_max) {
+            solucion.get(helicoptero).add(index1, -1);
+            added2B = true;
+        }
+        if(!added2A && !added2B && (carga_actual_2_antes + carga_actual_2_despues - grupos.get(grupo1).getNPersonas() > capacidad_max)){
+            solucion.get(helicoptero).add(index1, -1);
+        }
     }
 
     public void IntercambiaGruposDeHelicopteros(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
@@ -294,12 +327,33 @@ public class RescateEstado {
 
         solucion.get(helicoptero1).set(index1, grupo2);
         solucion.get(helicoptero2).set(index2, grupo1);
+        boolean added1A = false;
+        boolean added1B = false;
+        boolean added2A = false;
+        boolean added2B = false;
+        if(carga_h1_despues > capacidad_max){
+            solucion.get(helicoptero1).add(index1 + 1, -1);
+            added1A = true;
+        }
+        if(carga_h1_antes > capacidad_max) {
+            solucion.get(helicoptero1).add(index1, -1);
+            added1B = true;
+        }
+        if(!added1A && !added1B && carga_h1_antes + carga_h1_despues - grupos.get(grupo2).getNPersonas() > capacidad_max) {
+            solucion.get(helicoptero1).add(index1, -1);
+        }
 
-        if(carga_h1_despues > capacidad_max) solucion.get(helicoptero1).add(index1 + 1, -1);
-        if(carga_h1_antes > capacidad_max) solucion.get(helicoptero1).add(index1, -1);
-        if(carga_h2_despues > capacidad_max) solucion.get(helicoptero2).add(index2 + 1, -1);
-        if(carga_h2_antes > capacidad_max) solucion.get(helicoptero2).add(index2, -1);
-
+        if(carga_h2_despues > capacidad_max){
+            solucion.get(helicoptero2).add(index2 + 1, -1);
+            added2B = true;
+        }
+        if(carga_h2_antes > capacidad_max) {
+            solucion.get(helicoptero2).add(index2, -1);
+            added2A = true;
+        }
+        if(!added2A && !added2B && carga_h1_antes + carga_h1_despues - grupos.get(grupo1).getNPersonas() > capacidad_max) {
+            solucion.get(helicoptero1).add(index2, -1);
+        }
     }
 
     public void BorrarParada(int helicoptero, int index) {
