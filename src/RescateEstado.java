@@ -104,6 +104,7 @@ public class RescateEstado {
         solucion = new ArrayList<>();
         for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
             ArrayList<Integer> aux = new ArrayList<>();
+            aux.add(-1);
             solucion.add(i, aux);
         }
         Random random = new Random();
@@ -120,14 +121,19 @@ public class RescateEstado {
                 solucion.get(helicoptero).add(g);
                 capacidadHelicopteros.set(index, capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas());
             } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() == 0) {
-                solucion.get(centro * Nhelicopteros + helicoptero).add(g);
-                solucion.get(centro * Nhelicopteros + helicoptero).add(-1);
+                solucion.get(index).add(g);
+                solucion.get(index).add(-1);
                 capacidadHelicopteros.set(index, capacidad_max);
-            } else if (capacidadHelicopteros.get(index) - grupos.get(g).getNPersonas() < 0) {
-                solucion.get(centro * Nhelicopteros + helicoptero).add(-1);
-                solucion.get(centro * Nhelicopteros + helicoptero).add(g);
+            }
+            else {
+                solucion.get(index).add(-1);
+                solucion.get(index).add(g);
                 capacidadHelicopteros.set(index, capacidad_max - grupos.get(g).getNPersonas());
             }
+        }
+        for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
+            if (solucion.get(i).get(solucion.get(i).size()-1) != -1)
+                solucion.get(i).add(-1);
         }
     }
 
