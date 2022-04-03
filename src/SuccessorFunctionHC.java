@@ -46,13 +46,19 @@ public class SuccessorFunctionHC implements SuccessorFunction {
 
         // Cambiar todos los grupos de orden en todos los helicopteros
         for (int h = 0; h < Nhelicopteros * NCentros; ++h) {
+
             int NgruposH = solucion.get(h).size();
             ArrayList<Integer> gruposH = solucion.get(h);
+
             for (int g = 1; g < NgruposH - 1; ++g) {
+
                 for (int g2 = g + 1; g2 < NgruposH - 1; ++g2) {
+
                     int grupo = gruposH.get(g);
                     int grupo2 = gruposH.get(g2);
-                    if (grupo >= 0 && grupo2 >= 0 && estado.EsValidoCambioOrden(h,grupo,grupo2)) {
+
+                    if (estado.EsValidoCambioOrden(h,grupo,grupo2)) {
+
                         StringBuffer S = new StringBuffer();
                         RescateEstado nuevo_estado = new RescateEstado(estado);
                         nuevo_estado.CambiaOrdenGrupos(h,grupo,grupo2);
