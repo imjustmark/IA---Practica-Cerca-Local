@@ -63,7 +63,16 @@ public class RescateEstado {
         Ncentros = estado_a_copiar.Ncentros;
         Nhelicopteros = estado_a_copiar.Nhelicopteros;
 
-        solucion = estado_a_copiar.getSolucion();
+        solucion = new ArrayList<>();
+
+        ArrayList<ArrayList<Integer>> solucion_a_copiar = estado_a_copiar.getSolucion();
+        for (int i = 0; i < solucion_a_copiar.size(); ++i) {
+            ArrayList<Integer> aux = new ArrayList<>();
+            for (int j = 0; j < solucion_a_copiar.get(i).size(); ++j) {
+                aux.add(solucion_a_copiar.get(i).get(j));
+            }
+            solucion.add(aux);
+        }
     }
 
     public boolean isGoalState() {
