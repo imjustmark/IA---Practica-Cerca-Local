@@ -16,7 +16,7 @@ public class RescateDemo {
         int seed = in.nextInt();
         Instant inicio = Instant.now();
         RescateEstado state = new RescateEstado(seed);
-        state.EstadoInicial2();
+        state.EstadoInicial();
         state.print_solution();
         helicoptersHillClimbing(state);
         Instant finish =Instant.now();
