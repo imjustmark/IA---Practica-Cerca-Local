@@ -22,8 +22,9 @@ public class Heuristic2 implements HeuristicFunction{
 
             int coordx1, coordy1, coordx2, coordy2;
             if(conf.get(H).get(i) < 0){
-                coordx1 = state.centros.get(H/centros.size()).getCoordX();
-                coordy1 = state.centros.get(H/centros.size()).getCoordY();
+                int centro = H/(state.Nhelicopteros/ state.Ncentros);
+                coordx1 = state.centros.get(centro).getCoordX();
+                coordy1 = state.centros.get(centro).getCoordY();
             }
             else{
                 coordx1 = state.grupos.get(conf.get(H).get(i)).getCoordX();
@@ -31,8 +32,9 @@ public class Heuristic2 implements HeuristicFunction{
             }
 
             if(conf.get(H).get(i+1) < 0){
-                coordx2 = state.centros.get(H/centros.size()).getCoordX();
-                coordy2 = state.centros.get(H/centros.size()).getCoordY();
+                int centro = H/(state.Nhelicopteros/ state.Ncentros);
+                coordx2 = state.centros.get(centro).getCoordX();
+                coordy2 = state.centros.get(centro).getCoordY();
             }
             else{
                 coordx2 = state.grupos.get(conf.get(H).get(i+1)).getCoordX();
