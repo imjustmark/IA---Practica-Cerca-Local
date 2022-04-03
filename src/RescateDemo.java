@@ -1,17 +1,8 @@
 package src;
 
-import aima.search.eightpuzzle.*;
 import aima.search.framework.*;
-import aima.search.informed.AStarSearch;
-import aima.search.informed.GreedyBestFirstSearch;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
-import aima.search.nqueens.NQueensBoard;
-import aima.search.nqueens.NQueensGoalTest;
-import aima.search.nqueens.NQueensSuccessorFunction;
-import aima.search.nqueens.QueensToBePlacedHeuristic;
-import aima.search.uninformed.DepthLimitedSearch;
-import aima.search.uninformed.IterativeDeepeningSearch;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +25,7 @@ public class RescateDemo {
         System.out.println("\nHelicopters Simulated Annealing  Search -->");
         try {
             Problem problem = new Problem(state,
-                    new SuccessorFunctionHC(),
+                    new SuccessorFunctionSA(),
                     new EstadoFinal(), new Heuristic1());
             Search search = new SimulatedAnnealingSearch();
             SearchAgent agent = new SearchAgent(problem, search);
