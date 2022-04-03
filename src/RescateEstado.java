@@ -1,6 +1,7 @@
 package src;
 import IA.Desastres.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /***********************************************************************
@@ -179,9 +180,15 @@ public class RescateEstado {
     public boolean EsValidoCambiaGrupo(int grupo, int nuevo_helicoptero, int grupo_previo) {
         int carga_actual = 0;
         int index = solucion.get(nuevo_helicoptero).indexOf(grupo_previo);
-        while (index >= 0 && solucion.get(nuevo_helicoptero).get(index) >= 0) {
-            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index)).getNPersonas();
-            --index;
+        int index_min = index - 1;
+        while (index_min >= 0 && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
+            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_min)).getNPersonas();
+            --index_min;
+        }
+        int index_max = index + 1;
+        while (index_max < solucion.get(nuevo_helicoptero).size() && solucion.get(nuevo_helicoptero).get(index_min) >= 0) {
+            carga_actual = carga_actual + grupos.get(solucion.get(nuevo_helicoptero).get(index_max)).getNPersonas();
+            ++index_max;
         }
         return carga_actual + grupos.get(grupo).getNPersonas() <= capacidad_max;
     }
@@ -222,15 +229,28 @@ public class RescateEstado {
     public boolean EsValidoIntercambio(int grupo1, int helicoptero1, int grupo2, int helicoptero2) {
         int carga_h1 = 0;
         int carga_h2 = 0;
-        int index1 = solucion.get(helicoptero1).indexOf(grupo1) - 1;
-        int index2 = solucion.get(helicoptero2).indexOf(grupo2) - 1;
-        while (index1 >= 0 && solucion.get(helicoptero1).get(index1) >= 0) {
-            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index1)).getNPersonas();
-            --index1;
+        int index1 = solucion.get(helicoptero1).indexOf(grupo1);
+        int index2 = solucion.get(helicoptero2).indexOf(grupo2);
+
+        int index_min_1 = index1 - 1;
+        while (index_min_1 >= 0 && solucion.get(helicoptero1).get(index_min_1) >= 0) {
+            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index_min_1)).getNPersonas();
+            --index_min_1;
         }
-        while (index2 >= 0 && solucion.get(helicoptero2).get(index2) >= 0) {
-            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index2)).getNPersonas();
-            --index2;
+        int index_max_1 = index1 + 1;
+        while (index_max_1 < solucion.get(helicoptero1).size()  && solucion.get(helicoptero1).get(index_max_1) >= 0) {
+            carga_h1 = carga_h1 + grupos.get(solucion.get(helicoptero1).get(index_max_1)).getNPersonas();
+            ++index_max_1;
+        }
+        int index_min_2 = index2 - 1;
+        while (index_min_2 >= 0 && solucion.get(helicoptero2).get(index_min_2) >= 0) {
+            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index_min_2)).getNPersonas();
+            --index_min_2;
+        }
+        int index_max_2 = index2 + 1;
+        while (index_max_2 < solucion.get(helicoptero2).size()  && solucion.get(helicoptero2).get(index_max_2) >= 0) {
+            carga_h2 = carga_h2 + grupos.get(solucion.get(helicoptero2).get(index_max_2)).getNPersonas();
+            ++index_max_2;
         }
         return (carga_h1 + grupos.get(grupo2).getNPersonas() <= capacidad_max) &&
                 (carga_h2 + grupos.get(grupo1).getNPersonas() <= capacidad_max);
