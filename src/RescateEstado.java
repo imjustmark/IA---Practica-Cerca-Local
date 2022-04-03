@@ -206,22 +206,22 @@ public class RescateEstado {
         int index_original_2 = solucion.get(helicoptero).indexOf(grupo2);
 
         int index_max_1 = index_original_1 + 1;
-        while (solucion.get(helicoptero).get(index_max_1) >= 0) {
+        while (index_max_1 < solucion.get(helicoptero).size() && solucion.get(helicoptero).get(index_max_1) >= 0) {
             carga_actual_1 = carga_actual_1 + grupos.get(solucion.get(helicoptero).get(index_max_1)).getNPersonas();
             ++index_max_1;
         }
         int index_min_1 = index_original_1 - 1;
-        while (solucion.get(helicoptero).get(index_min_1) >= 0) {
+        while (index_min_1 >= 0 && solucion.get(helicoptero).get(index_min_1) >= 0) {
             carga_actual_1 = carga_actual_1 + grupos.get(solucion.get(helicoptero).get(index_min_1)).getNPersonas();
             --index_min_1;
         }
         int index_max_2 = index_original_2 + 1;
-        while (solucion.get(helicoptero).get(index_max_2) >= 0) {
+        while (index_max_2 < solucion.get(helicoptero).size() && solucion.get(helicoptero).get(index_max_2) >= 0) {
             carga_actual_2 = carga_actual_2 + grupos.get(solucion.get(helicoptero).get(index_max_2)).getNPersonas();
             ++index_max_2;
         }
         int index_min_2 = index_original_2 - 1;
-        while (solucion.get(helicoptero).get(index_min_2) >= 0) {
+        while (index_min_2 >= 0 && solucion.get(helicoptero).get(index_min_2) >= 0) {
             carga_actual_2 = carga_actual_2 + grupos.get(solucion.get(helicoptero).get(index_min_2)).getNPersonas();
             --index_min_2;
         }

@@ -18,7 +18,6 @@ public class RescateDemo {
         int seed = in.nextInt();
         state = new RescateEstado(seed);
         helicoptersHillClimbing();
-        helicoptersSimulatedAnnealing();
     }
 
     private static void helicoptersSimulatedAnnealing() {
