@@ -133,7 +133,6 @@ public class RescateEstado {
                         solucion.get(i * Nhelicopteros + j).add(-1);
                 }
         }
-        System.out.println("asdjf");
     }
 
 
