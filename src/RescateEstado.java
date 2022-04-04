@@ -25,7 +25,7 @@ public class RescateEstado {
     //maxhelicopteros por centro.
 
     static int Ngrupos = 100;
-    static int Ncentros = 5;
+    static int Ncentros = 60;
     static int Nhelicopteros = 1;
 
     static int capacidad_max = 15;
@@ -43,8 +43,6 @@ public class RescateEstado {
 
 
     public RescateEstado(int seed){
-//       Random random = new Random();
-
        RescateEstado.grupos = new Grupos(Ngrupos, seed);
        RescateEstado.centros = new Centros(Ncentros, Nhelicopteros, seed);
     }
@@ -77,62 +75,6 @@ public class RescateEstado {
 
     public boolean isGoalState() {
         return false;
-    }
-
-
-
-    private ArrayList<Integer> randomArray(){
-        ArrayList<Integer> array;
-        array = new ArrayList<>();
-        for (int i=0; i < Ngrupos; ++i){
-            array.add(i);
-        }
-
-        Random random = new Random();
-        for (int i=array.size()-1; i > 0; --i){
-           int index = random.nextInt(i+1);
-           int aux = array.get(index);
-           array.set(index, array.get(i));
-           array.set(i, aux);
-    }
-   return array;
-    }
-
-    //-1 implica helicoptero en centro
-    public void EstadoInicial3(){
-        solucion = new ArrayList<>();
-        for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
-            ArrayList<Integer> aux = new ArrayList<>();
-            aux.add(-1);
-            solucion.add(i, aux);
-        }
-        ArrayList<Integer> arrayGrupos = randomArray();
-        Random random = new Random();
-        int index = 0;
-        int g;
-
-        while (index < Ngrupos) {
-            for (int i = 0; i < Ncentros; ++i)
-                for (int j = 0; j < Nhelicopteros; ++j) {
-                    int capacidadHelicoptero = capacidad_max;
-                    int numGrupos = 3;
-                    while (capacidadHelicoptero > 0 && numGrupos > 0 && index < Ngrupos) {
-                        g = arrayGrupos.get(index);
-                        int personasGrupo = grupos.get(g).getNPersonas();
-
-                        if (capacidadHelicoptero - personasGrupo >= 0) {
-                            solucion.get(i * Nhelicopteros + j).add(g);
-                            capacidadHelicoptero -= personasGrupo;
-                            numGrupos--;
-                            ++index;
-                        } else {
-                            capacidadHelicoptero = 0;
-                        }
-                    }
-                    if (solucion.get(i * Nhelicopteros + j).get(solucion.get(i * Nhelicopteros + j).size()-1) != -1)
-                        solucion.get(i * Nhelicopteros + j).add(-1);
-                }
-        }
     }
 
 
