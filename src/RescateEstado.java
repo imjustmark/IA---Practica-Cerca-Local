@@ -181,6 +181,65 @@ public class RescateEstado {
         }
     }
 
+    private ArrayList<Integer> calcularCentroMasCercano(){
+        ArrayList<Integer> centroMasCercano = new ArrayList<Integer>();
+        for (int g=0; g < Ngrupos; ++g){
+            int gcoordx = grupos.get(g).getCoordX();
+            int gcoordy = grupos.get(g).getCoordY();
+            ArrayList<Integer> dists = new ArrayList<Integer>();
+            for (int c=0; c < Ncentros; ++c){
+                int ccoordx = centros.get(c).getCoordX();
+                int ccoordy = centros.get(c).getCoordY();
+                double dist = Math.abs(Math.sqrt(Math.pow(ccoordx-gcoordx, 2) + Math.pow(ccoordy-gcoordy, 2)));
+                dists.add((int)dist);
+            }
+            centroMasCercano.add(dists.indexOf(Collections.min(dists)));
+        }
+
+        return centroMasCercano;
+    }
+
+    public void EstadoInicial3(){
+        solucion = new ArrayList<>();
+        ArrayList<Integer> gruposDesdeCentro = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
+        ArrayList<Integer> centroMasCercano;
+        ArrayList<Integer> capacidadHelicopteros = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
+        Collections.fill(capacidadHelicopteros, capacidad_max);
+
+        for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
+            ArrayList<Integer> aux = new ArrayList<>();
+            aux.add(-1);
+            solucion.add(i, aux);
+            gruposDesdeCentro.add(i, 0);
+        }
+        centroMasCercano = calcularCentroMasCercano();
+
+        for (int g=0; g < Ngrupos; ++g) {
+            Random random = new Random();
+            int centro = centroMasCercano.get(g);
+            int heli = random.nextInt(Nhelicopteros);
+            int capGrupo = grupos.get(g).getNPersonas();
+            int index = centro*Nhelicopteros + heli;
+            if (capacidadHelicopteros.get(index)-capGrupo >= 0 && gruposDesdeCentro.get(index) < 3) {
+                capacidadHelicopteros.set(index, capacidadHelicopteros.get(index) - capGrupo);
+                solucion.get(index).add(g);
+                gruposDesdeCentro.set(index, gruposDesdeCentro.get(index) + 1);
+            }
+            else {
+                solucion.get(index).add(-1);
+                solucion.get(index).add(g);
+                gruposDesdeCentro.set(index, 1);
+                capacidadHelicopteros.set(index, capacidad_max - capGrupo);
+            }
+        }
+
+        for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
+            if (solucion.get(i).get(solucion.get(i).size()-1) != -1)
+                solucion.get(i).add(-1);
+        }
+
+    }
+
 
     public ArrayList<ArrayList<Integer>> getSolucion() {
         return solucion;
