@@ -40,7 +40,6 @@ public class RescateEstado {
     public static Centros centros;
 
     public ArrayList<ArrayList<Integer> > solucion;
-    Boolean[] gruposAsignados;
 
     public RescateEstado(int seed){
 //       Random random = new Random();
@@ -106,11 +105,9 @@ public class RescateEstado {
             solucion.add(i, aux);
         }
         ArrayList<Integer> arrayGrupos = randomArray();
-        gruposAsignados = new Boolean[Ngrupos];
-        Arrays.fill(gruposAsignados, Boolean.FALSE);
         Random random = new Random();
         int index = 0;
-        int g = randomArray().get(index);
+        int g;
 
         while (index < Ngrupos) {
             for (int i = 0; i < Ncentros; ++i)
@@ -118,7 +115,7 @@ public class RescateEstado {
                     int capacidadHelicoptero = capacidad_max;
                     int numGrupos = 3;
                     while (capacidadHelicoptero > 0 && numGrupos > 0 && index < Ngrupos) {
-                        g = randomArray().get(index);
+                        g = arrayGrupos.get(index);
                         int personasGrupo = grupos.get(g).getNPersonas();
 
                         if (capacidadHelicoptero - personasGrupo >= 0) {
