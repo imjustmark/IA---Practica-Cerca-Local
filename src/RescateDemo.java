@@ -16,7 +16,7 @@ public class RescateDemo {
         int seed = in.nextInt();
         Instant inicio = Instant.now();
         RescateEstado state = new RescateEstado(seed);
-        state.EstadoInicial();
+        state.EstadoInicial2();
 
         if (state.comprobacionCapacidad()) state.print_solution();
         else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros en la solucion inicial!");
@@ -38,13 +38,16 @@ public class RescateDemo {
     private static void helicoptersSimulatedAnnealing(RescateEstado state) {
         System.out.println("\nHelicopters Simulated Annealing  Search -->");
         try {
-            Problem problem = new Problem(state,
-                    new SuccessorFunctionSA(),
-                    new EstadoFinal(), new Heuristic2());
-            Search search = new SimulatedAnnealingSearch(10000, 100, 5, 0.001);
+            Problem problem = new Problem(state, new SuccessorFunctionSA(), new EstadoFinal(), new Heuristic3());
+            Search search = new SimulatedAnnealingSearch();
             SearchAgent agent = new SearchAgent(problem, search);
-            printActions(agent.getActions());
-            printInstrumentation(agent.getInstrumentation());
+
+            RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
+            solucionfinal.print_solution();
+            if (!solucionfinal.comprobacionCapacidad()) System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros!");
+
+            if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +60,7 @@ public class RescateDemo {
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
-            //printActions(agent.getActions());
+            printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
             if (solucionfinal.comprobacionCapacidad()) solucionfinal.print_solution();

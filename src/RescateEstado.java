@@ -467,7 +467,6 @@ public class RescateEstado {
     }
 
     void print_solution(){
-        /*
         for(int i = 0; i < solucion.size(); ++i){
             System.out.print("Helicoptero ");
             System.out.print(i);
@@ -478,7 +477,6 @@ public class RescateEstado {
             }
             System.out.println();
         }
-         */
         System.out.print("Valor maxim: ");
         System.out.println(valor_maxim());
         System.out.println();

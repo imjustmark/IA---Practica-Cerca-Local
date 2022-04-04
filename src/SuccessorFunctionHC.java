@@ -78,7 +78,6 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                             nuevo_estado.IntercambiaGruposDeHelicopteros(grupoH, h, grupoNH, nh);
                             S.append("Intercambiar el grupo " + grupoH + " del helicoptero " + h + " con el grupo " + grupoNH + " del helicoptero " + nh + ".\n");
                             retVal.add(new Successor(S.toString(), nuevo_estado));
-
                         }
                     }
                 }
