@@ -99,7 +99,7 @@ public class RescateEstado {
     }
 
     //-1 implica helicoptero en centro
-    public void EstadoInicial(){
+    public void EstadoInicial3(){
         solucion = new ArrayList<>();
         for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
             ArrayList<Integer> aux = new ArrayList<>();
@@ -136,7 +136,7 @@ public class RescateEstado {
     }
 
 
-    public void EstadoInicial2(){
+    public void EstadoInicial(){
         solucion = new ArrayList<>();
         ArrayList<Integer> gruposDesdeCentro = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
         for (int i = 0; i < Nhelicopteros*Ncentros; ++i) {
@@ -199,7 +199,7 @@ public class RescateEstado {
         return centroMasCercano;
     }
 
-    public void EstadoInicial3(){
+    public void EstadoInicial2(){
         solucion = new ArrayList<>();
         ArrayList<Integer> gruposDesdeCentro = new ArrayList<Integer>(Arrays.asList(new Integer[Nhelicopteros*Ncentros]));
         ArrayList<Integer> centroMasCercano;
