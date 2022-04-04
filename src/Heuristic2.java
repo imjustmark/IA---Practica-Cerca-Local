@@ -13,7 +13,7 @@ public class Heuristic2 implements HeuristicFunction{
         double sum = 0;
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
-            double tempsH = state.calculaTiempoH(i, state);
+            double tempsH = state.calculaTiempoH(i);
             sum += Math.pow(tempsH, 2);
         }
         return sum;

@@ -498,7 +498,7 @@ public class RescateEstado {
         int num_h = Nhelicopteros*Ncentros;
         double max = 0.0f;
         for(int i = 0; i < num_h; ++i){
-            double tempsH = calculaTiempoH(i, this);
+            double tempsH = calculaTiempoH(i);
             if(tempsH > max) max = tempsH;
         }
         return max;
@@ -507,7 +507,7 @@ public class RescateEstado {
         int num_h = Nhelicopteros*Ncentros;
         double sum = 0.0f;
         for(int i = 0; i < num_h; ++i){
-            double tempsH = calculaTiempoH(i, this);
+            double tempsH = calculaTiempoH(i);
             sum += tempsH;
         }
         return sum;
@@ -517,9 +517,8 @@ public class RescateEstado {
         return Math.sqrt(Math.pow(coordx1-coordx2, 2) + Math.pow(coordy1-coordy2, 2))/velocidadH;
     }
 
-    public double calculaTiempoH(int H, Object n){
-        RescateEstado state = (RescateEstado) n;
-        ArrayList<ArrayList<Integer>> conf = state.getSolucion();
+    public double calculaTiempoH(int H){
+        ArrayList<ArrayList<Integer>> conf = getSolucion();
 
         int num_dest = conf.get(H).size();
         double sum = 0.0f;
@@ -527,23 +526,23 @@ public class RescateEstado {
 
             int coordx1, coordy1, coordx2, coordy2;
             if(conf.get(H).get(i) < 0){
-                int centro = H/(state.Nhelicopteros);
-                coordx1 = state.centros.get(centro).getCoordX();
-                coordy1 = state.centros.get(centro).getCoordY();
+                int centro = H/(Nhelicopteros);
+                coordx1 = centros.get(centro).getCoordX();
+                coordy1 = centros.get(centro).getCoordY();
             }
             else{
-                coordx1 = state.grupos.get(conf.get(H).get(i)).getCoordX();
-                coordy1 = state.grupos.get(conf.get(H).get(i)).getCoordY();
+                coordx1 = grupos.get(conf.get(H).get(i)).getCoordX();
+                coordy1 = grupos.get(conf.get(H).get(i)).getCoordY();
             }
 
             if(conf.get(H).get(i+1) < 0){
-                int centro = H/(state.Nhelicopteros);
-                coordx2 = state.centros.get(centro).getCoordX();
-                coordy2 = state.centros.get(centro).getCoordY();
+                int centro = H/(Nhelicopteros);
+                coordx2 = centros.get(centro).getCoordX();
+                coordy2 = centros.get(centro).getCoordY();
             }
             else{
-                coordx2 = state.grupos.get(conf.get(H).get(i+1)).getCoordX();
-                coordy2 = state.grupos.get(conf.get(H).get(i+1)).getCoordY();
+                coordx2 = grupos.get(conf.get(H).get(i+1)).getCoordX();
+                coordy2 = grupos.get(conf.get(H).get(i+1)).getCoordY();
             }
             double tempsViatge = tiempoDest(coordx1, coordy1, coordx2, coordy2);
             sum += tempsViatge;
@@ -552,12 +551,12 @@ public class RescateEstado {
                 if(i+1 < num_dest) sum += tiempoCentro;
             }
             else{
-                if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
-                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
+                if(grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
+                    double tempsRecollir = grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
                     sum += tempsRecollir;
                 }
-                else if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
-                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
+                else if(grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
+                    double tempsRecollir = grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
                     sum += tempsRecollir;
                 }
             }
@@ -565,9 +564,8 @@ public class RescateEstado {
         return sum;
     }
 
-    public double calculaTiempoHPriod1(int H, Object n){
-        RescateEstado state = (RescateEstado) n;
-        ArrayList<ArrayList<Integer>> conf = state.getSolucion();
+    public double calculaTiempoHPriod1(int H){
+        ArrayList<ArrayList<Integer>> conf = getSolucion();
 
         int num_dest = conf.get(H).size();
         double sum = 0.0f;
@@ -576,23 +574,23 @@ public class RescateEstado {
 
             int coordx1, coordy1, coordx2, coordy2;
             if(conf.get(H).get(i) < 0){
-                int centro = H/(state.Nhelicopteros);
-                coordx1 = state.centros.get(centro).getCoordX();
-                coordy1 = state.centros.get(centro).getCoordY();
+                int centro = H/(Nhelicopteros);
+                coordx1 = centros.get(centro).getCoordX();
+                coordy1 = centros.get(centro).getCoordY();
             }
             else{
-                coordx1 = state.grupos.get(conf.get(H).get(i)).getCoordX();
-                coordy1 = state.grupos.get(conf.get(H).get(i)).getCoordY();
+                coordx1 = grupos.get(conf.get(H).get(i)).getCoordX();
+                coordy1 = grupos.get(conf.get(H).get(i)).getCoordY();
             }
 
             if(conf.get(H).get(i+1) < 0){
-                int centro = H/(state.Nhelicopteros);
-                coordx2 = state.centros.get(centro).getCoordX();
-                coordy2 = state.centros.get(centro).getCoordY();
+                int centro = H/(Nhelicopteros);
+                coordx2 = centros.get(centro).getCoordX();
+                coordy2 = centros.get(centro).getCoordY();
             }
             else{
-                coordx2 = state.grupos.get(conf.get(H).get(i+1)).getCoordX();
-                coordy2 = state.grupos.get(conf.get(H).get(i+1)).getCoordY();
+                coordx2 = grupos.get(conf.get(H).get(i+1)).getCoordX();
+                coordy2 = grupos.get(conf.get(H).get(i+1)).getCoordY();
             }
             double tempsViatge = tiempoDest(coordx1, coordy1, coordx2, coordy2);
             sum += tempsViatge;
@@ -601,13 +599,13 @@ public class RescateEstado {
                 if(i+1 < num_dest) sum += tiempoCentro;
             }
             else{
-                if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
-                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
+                if(grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
+                    double tempsRecollir = grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
                     sum += tempsRecollir;
                     tempsPriod1 = sum;
                 }
-                else if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
-                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
+                else if(grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
+                    double tempsRecollir = grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
                     sum += tempsRecollir;
                 }
             }
