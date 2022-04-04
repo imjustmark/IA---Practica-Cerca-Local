@@ -38,8 +38,8 @@ public class RescateDemo {
     private static void helicoptersSimulatedAnnealing(RescateEstado state) {
         System.out.println("\nHelicopters Simulated Annealing  Search -->");
         try {
-            Problem problem = new Problem(state, new SuccessorFunctionSA(), new EstadoFinal(), new HeuristicCriterio1());
-            Search search = new SimulatedAnnealingSearch();
+            Problem problem = new Problem(state, new SuccessorFunctionSA(), new EstadoFinal(), new Heuristic2());
+            Search search = new SimulatedAnnealingSearch(10000, 100, 125, 0.01);
             SearchAgent agent = new SearchAgent(problem, search);
 
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
@@ -56,7 +56,7 @@ public class RescateDemo {
     private static void helicoptersHillClimbing(RescateEstado state) {
         System.out.println("\nHelicopters HillClimbing  -->");
         try {
-            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new HeuristicCriterio1());
+            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic3());
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
