@@ -225,7 +225,7 @@ public class RescateEstado {
             addedA = true;
         }
         solucion.get(nuevo_helicoptero).add(index_ga , grupo);
-        if(carga_antes + grupos.get(grupo).getNPersonas() > capacidad_max || num_grupos_despues > 2) {
+        if(carga_antes + grupos.get(grupo).getNPersonas() > capacidad_max || num_grupos_antes > 2) {
             solucion.get(nuevo_helicoptero).add(index_ga, -1);
             addedB = true;
         }
