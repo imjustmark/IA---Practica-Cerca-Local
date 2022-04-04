@@ -79,12 +79,6 @@ public class RescateEstado {
         return false;
     }
 
-    private Boolean TodosGruposAsignados(){
-        for (Boolean gruposAsignado : gruposAsignados) {
-            if (!gruposAsignado) return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
 
     private ArrayList<Integer> randomArray(){
         ArrayList<Integer> array;
@@ -115,28 +109,29 @@ public class RescateEstado {
         gruposAsignados = new Boolean[Ngrupos];
         Arrays.fill(gruposAsignados, Boolean.FALSE);
         Random random = new Random();
-        int g = 0;
+        int index = 0;
+        int g = randomArray().get(index);
 
-        while (g < Ngrupos){
-            for (int i=0; i < Ncentros; ++i)
+        while (index < Ngrupos) {
+            for (int i = 0; i < Ncentros; ++i)
                 for (int j = 0; j < Nhelicopteros; ++j) {
                     int capacidadHelicoptero = capacidad_max;
                     int numGrupos = 3;
-                    while (capacidadHelicoptero > 0 && numGrupos > 0 && g < Ngrupos) {
+                    while (capacidadHelicoptero > 0 && numGrupos > 0 && index < Ngrupos) {
+                        g = randomArray().get(index);
                         int personasGrupo = grupos.get(g).getNPersonas();
 
                         if (capacidadHelicoptero - personasGrupo >= 0) {
                             solucion.get(i * Nhelicopteros + j).add(g);
-                            gruposAsignados[g] = Boolean.TRUE;
                             capacidadHelicoptero -= personasGrupo;
                             numGrupos--;
-                            ++g;
-                        }
-                        else {
+                            ++index;
+                        } else {
                             capacidadHelicoptero = 0;
                         }
                     }
-                    solucion.get(i*Nhelicopteros + j).add(-1);
+                    if (solucion.get(i * Nhelicopteros + j).get(solucion.get(i * Nhelicopteros + j).size()-1) != -1)
+                        solucion.get(i * Nhelicopteros + j).add(-1);
                 }
         }
     }

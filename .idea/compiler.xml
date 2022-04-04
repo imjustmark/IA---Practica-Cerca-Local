@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/aima/search/eightpuzzle" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/aima/search/nqueens" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/aima/search/demos" includeSubdirectories="true" />
+    </excludeFromCompile>
+  </component>
+</project>
