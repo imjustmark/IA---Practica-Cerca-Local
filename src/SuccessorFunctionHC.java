@@ -50,7 +50,7 @@ public class SuccessorFunctionHC implements SuccessorFunction {
                 for (int g2 = g + 1; g2 < NgruposH - 1; ++g2) {
                     int grupo = gruposH.get(g);
                     int grupo2 = gruposH.get(g2);
-                    if (estado.EsValidoCambioOrden(h,grupo,grupo2)) {
+                    if (estado.EsValidoCambioOrden(grupo,grupo2)) {
                         StringBuffer S = new StringBuffer();
                         RescateEstado nuevo_estado = new RescateEstado(estado);
                         nuevo_estado.CambiaOrdenGrupos(h,grupo,grupo2);

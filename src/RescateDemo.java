@@ -23,7 +23,13 @@ public class RescateDemo {
 
         if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero en la solucion inicial!");
 
-        helicoptersHillClimbing(state);
+        System.out.println("Introduzca que metodo quiere usar: ");
+        System.out.println(" 0: Hill Climbing");
+        System.out.println(" 1: Simulated Annealing");
+        int choice = in.nextInt();
+        if (choice == 0) helicoptersHillClimbing(state);
+        else if (choice == 1) helicoptersSimulatedAnnealing(state);
+        else System.out.println("Error, introduzca un valor valido (0 o 1)");
         Instant finish =Instant.now();
         long timeElapsed = Duration.between(inicio,finish).toMillis();
         System.out.println("Elapsed time: " + timeElapsed + " ms.");
@@ -34,8 +40,8 @@ public class RescateDemo {
         try {
             Problem problem = new Problem(state,
                     new SuccessorFunctionSA(),
-                    new EstadoFinal(), new Heuristic1());
-            Search search = new SimulatedAnnealingSearch();
+                    new EstadoFinal(), new Heuristic2());
+            Search search = new SimulatedAnnealingSearch(10000, 100, 5, 0.001);
             SearchAgent agent = new SearchAgent(problem, search);
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());

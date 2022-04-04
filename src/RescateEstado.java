@@ -199,7 +199,7 @@ public class RescateEstado {
 
     public void CambiaGrupoDeHelicoptero(int index_g, int helicoptero, int nuevo_helicoptero, int index_ga) {
         int grupo = solucion.get(helicoptero).remove(index_g);
-        if (solucion.get(helicoptero).get(index_g) == -1 && solucion.get(helicoptero).get(index_g -1) == -1) {
+        if (solucion.get(helicoptero).get(index_g) == -1 && index_g > 0 && solucion.get(helicoptero).get(index_g -1) == -1) {
             solucion.get(helicoptero).remove(index_g);
         }
         int num_grupos_antes = 0;
@@ -395,7 +395,7 @@ public class RescateEstado {
     }
 
     // Aqui está hecho, faltaría en las demás.
-    public boolean EsValidoCambioOrden(int helicoptero, int grupo1, int grupo2) {
+    public boolean EsValidoCambioOrden(int grupo1, int grupo2) {
         return (grupo1 >= 0) && (grupo2 >= 0);
     }
 
@@ -424,7 +424,7 @@ public class RescateEstado {
             ++index_max;
         }
 
-        return (carga_anterior + carga_posterior <= capacidad_max) && (cuantos_antes + cuantos_despues <= 3);
+        return (carga_anterior + carga_posterior <= capacidad_max) && (cuantos_antes + cuantos_despues <= 3) && indice > 0;
     }
 
     public boolean EsValidoMoverParada(int helicoptero, int indice, int movimiento) {
