@@ -9,7 +9,7 @@ public class HeuristicCriterio2 implements HeuristicFunction {
         RescateEstado state = (RescateEstado) n;
         ArrayList<ArrayList<Integer>> conf = state.getSolucion();
         double max = 0;
-        double factor = 1.0;
+        double factor = 2.0;
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
             double tempsH = state.calculaTiempoH(i) + factor*state.calculaTiempoHPriod1(i);

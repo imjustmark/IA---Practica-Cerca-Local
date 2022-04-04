@@ -38,15 +38,12 @@ public class RescateDemo {
     private static void helicoptersSimulatedAnnealing(RescateEstado state) {
         System.out.println("\nHelicopters Simulated Annealing  Search -->");
         try {
-            Problem problem = new Problem(state, new SuccessorFunctionSA(), new EstadoFinal(), new Heuristic2());
-            Search search = new SimulatedAnnealingSearch(10000, 100, 125, 0.01);
+            Problem problem = new Problem(state, new SuccessorFunctionSA(), new EstadoFinal(), new HeuristicCriterio2());
+            Search search = new SimulatedAnnealingSearch();
             SearchAgent agent = new SearchAgent(problem, search);
 
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
             solucionfinal.print_solution();
-            if (!solucionfinal.comprobacionCapacidad()) System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros!");
-
-            if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,17 +53,14 @@ public class RescateDemo {
     private static void helicoptersHillClimbing(RescateEstado state) {
         System.out.println("\nHelicopters HillClimbing  -->");
         try {
-            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic3());
+            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new HeuristicCriterio1());
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 
             printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
-            if (solucionfinal.comprobacionCapacidad()) solucionfinal.print_solution();
-            else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros!");
-
-            if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero!");
+            solucionfinal.print_solution();
 
         } catch (Exception e) {
             e.printStackTrace();
