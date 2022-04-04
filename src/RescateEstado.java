@@ -489,6 +489,10 @@ public class RescateEstado {
         System.out.println(valor_maxim());
         System.out.println();
 
+        System.out.print("Valor maxim Priod 1: ");
+        System.out.println(valor_maxim_priod1());
+        System.out.println();
+
         System.out.print("Suma: ");
         System.out.println(suma());
         System.out.println();
@@ -499,6 +503,15 @@ public class RescateEstado {
         double max = 0.0f;
         for(int i = 0; i < num_h; ++i){
             double tempsH = calculaTiempoH(i);
+            if(tempsH > max) max = tempsH;
+        }
+        return max;
+    }
+    double valor_maxim_priod1(){
+        int num_h = Nhelicopteros*Ncentros;
+        double max = 0.0f;
+        for(int i = 0; i < num_h; ++i){
+            double tempsH = calculaTiempoHPriod1(i);
             if(tempsH > max) max = tempsH;
         }
         return max;

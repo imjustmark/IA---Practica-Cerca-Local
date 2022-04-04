@@ -17,7 +17,10 @@ public class RescateDemo {
         Instant inicio = Instant.now();
         RescateEstado state = new RescateEstado(seed);
         state.EstadoInicial();
-        state.print_solution();
+
+        if (state.comprobacion()) state.print_solution();
+        else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros en la solucion inicial!");
+
         helicoptersHillClimbing(state);
         Instant finish =Instant.now();
         long timeElapsed = Duration.between(inicio,finish).toMillis();
@@ -42,7 +45,7 @@ public class RescateDemo {
     private static void helicoptersHillClimbing(RescateEstado state) {
         System.out.println("\nHelicopters HillClimbing  -->");
         try {
-            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic2());
+            Problem problem =  new Problem(state,new SuccessorFunctionHC(), new EstadoFinal(),new Heuristic3());
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
 

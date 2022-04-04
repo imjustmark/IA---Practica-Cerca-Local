@@ -11,7 +11,7 @@ public class Heuristic3 implements HeuristicFunction {
         double sum = 0;
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
-            double tempsH = state.calculaTiempoH(i) + state.calculaTiempoHPriod1(i);
+            double tempsH = Math.pow(state.calculaTiempoH(i) + state.calculaTiempoHPriod1(i), 2);
             sum += tempsH;
         }
         return sum;
