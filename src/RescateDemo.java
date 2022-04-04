@@ -18,8 +18,10 @@ public class RescateDemo {
         RescateEstado state = new RescateEstado(seed);
         state.EstadoInicial();
 
-        if (state.comprobacion()) state.print_solution();
+        if (state.comprobacionCapacidad()) state.print_solution();
         else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros en la solucion inicial!");
+
+        if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero en la solucion inicial!");
 
         helicoptersHillClimbing(state);
         Instant finish =Instant.now();
@@ -52,8 +54,11 @@ public class RescateDemo {
             //printActions(agent.getActions());
             printInstrumentation(agent.getInstrumentation());
             RescateEstado solucionfinal = (RescateEstado) search.getGoalState();
-            if (solucionfinal.comprobacion()) solucionfinal.print_solution();
+            if (solucionfinal.comprobacionCapacidad()) solucionfinal.print_solution();
             else System.out.println("ERROR! Se sobrepasa la capacidad maxima de los helicopteros!");
+
+            if (!state.comprobacionNumero()) System.out.println("ERROR! Se sobrepasa el numero maximo de grupos por helicoptero!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

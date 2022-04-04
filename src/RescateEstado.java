@@ -626,7 +626,7 @@ public class RescateEstado {
         return tempsPriod1;
     }
 
-    boolean comprobacion() {
+    boolean comprobacionCapacidad() {
         int carga = 0;
         for (int i = 0; i < solucion.size(); ++i) {
             ArrayList<Integer> grupos_helicoptero = solucion.get(i);
@@ -635,6 +635,20 @@ public class RescateEstado {
                 if (ID == -1) carga = 0;
                 else carga = carga + grupos.get(ID).getNPersonas();
                 if (carga > capacidad_max) return false;
+            }
+        }
+        return true;
+    }
+
+    boolean comprobacionNumero(){
+        int num = 0;
+        for (int i = 0; i < solucion.size(); ++i) {
+            ArrayList<Integer> grupos_helicoptero = solucion.get(i);
+            for (int j = 0; j < grupos_helicoptero.size(); ++j) {
+                int ID = grupos_helicoptero.get(j);
+                if (ID == -1) num = 0;
+                else ++num;
+                if (num > 3) return false;
             }
         }
         return true;
