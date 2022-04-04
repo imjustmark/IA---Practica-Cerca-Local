@@ -4,7 +4,7 @@ import aima.search.framework.HeuristicFunction;
 
 import java.util.ArrayList;
 
-public class Heuristic3 implements HeuristicFunction {
+public class Heuristic4 implements HeuristicFunction {
     public double getHeuristicValue(Object n){
         RescateEstado state = (RescateEstado) n;
         ArrayList<ArrayList<Integer>> conf = state.getSolucion();
@@ -12,10 +12,9 @@ public class Heuristic3 implements HeuristicFunction {
         double factor = 1.0;
         int num_h = conf.size();
         for(int i = 0; i < num_h; ++i){
-            double tempsH = state.calculaTiempoH(i) + factor*state.calculaTiempoHPriod1(i);
+            double tempsH = Math.pow(state.calculaTiempoH(i) + factor*state.calculaTiempoHPriod1(i), 2);
             sum += tempsH;
         }
         return sum;
     }
 }
-
