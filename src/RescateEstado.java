@@ -565,6 +565,56 @@ public class RescateEstado {
         return sum;
     }
 
+    public double calculaTiempoHPriod1(int H, Object n){
+        RescateEstado state = (RescateEstado) n;
+        ArrayList<ArrayList<Integer>> conf = state.getSolucion();
+
+        int num_dest = conf.get(H).size();
+        double sum = 0.0f;
+        double tempsPriod1 = 0.0f;
+        for(int i = 0; i < num_dest -1; ++i){
+
+            int coordx1, coordy1, coordx2, coordy2;
+            if(conf.get(H).get(i) < 0){
+                int centro = H/(state.Nhelicopteros);
+                coordx1 = state.centros.get(centro).getCoordX();
+                coordy1 = state.centros.get(centro).getCoordY();
+            }
+            else{
+                coordx1 = state.grupos.get(conf.get(H).get(i)).getCoordX();
+                coordy1 = state.grupos.get(conf.get(H).get(i)).getCoordY();
+            }
+
+            if(conf.get(H).get(i+1) < 0){
+                int centro = H/(state.Nhelicopteros);
+                coordx2 = state.centros.get(centro).getCoordX();
+                coordy2 = state.centros.get(centro).getCoordY();
+            }
+            else{
+                coordx2 = state.grupos.get(conf.get(H).get(i+1)).getCoordX();
+                coordy2 = state.grupos.get(conf.get(H).get(i+1)).getCoordY();
+            }
+            double tempsViatge = tiempoDest(coordx1, coordy1, coordx2, coordy2);
+            sum += tempsViatge;
+
+            if(conf.get(H).get(i+1) < 0){
+                if(i+1 < num_dest) sum += tiempoCentro;
+            }
+            else{
+                if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 1){
+                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod1;
+                    sum += tempsRecollir;
+                    tempsPriod1 = sum;
+                }
+                else if(state.grupos.get(conf.get(H).get(i+1)).getPrioridad() == 2){
+                    double tempsRecollir = state.grupos.get(conf.get(H).get(i+1)).getNPersonas()*tiempoPersonaPriod2;
+                    sum += tempsRecollir;
+                }
+            }
+        }
+        return tempsPriod1;
+    }
+
     boolean comprobacion() {
         int carga = 0;
         for (int i = 0; i < solucion.size(); ++i) {
